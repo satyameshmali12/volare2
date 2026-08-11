@@ -34,7 +34,11 @@ export default function Home() {
             className="flex items-center gap-3"
           >
             <div>
-              <img src="/volarerect.png" alt="Team Volare" />
+              <img
+                src="/volarerect.png"
+                alt="Team Volare"
+                style={{ width: "150px" }}
+              />
             </div>
             {/* <div className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300/10">
               <span className="text-xl">⚓</span>
