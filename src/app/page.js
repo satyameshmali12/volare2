@@ -33,7 +33,10 @@ export default function Home() {
             onClick={() => scrollToSection("home")}
             className="flex items-center gap-3"
           >
-            <div className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300/10">
+            <div>
+              <img src="/volarerect.png" alt="Team Volare" />
+            </div>
+            {/* <div className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan-300/40 bg-cyan-300/10">
               <span className="text-xl">⚓</span>
             </div>
 
@@ -42,7 +45,7 @@ export default function Home() {
               <p className="text-[9px] tracking-[0.35em] text-cyan-300">
                 MARINE TECHNOLOGY
               </p>
-            </div>
+            </div> */}
           </button>
 
           {/* DESKTOP NAV */}
@@ -191,7 +194,10 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionTitle eyebrow="01 — WHO WE ARE" title="More Than A Boat." />
 
-          <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
+          <div
+            className="mt-16 grid items-center gap-12 lg:grid-cols-2"
+            style={{ display: "flex" }}
+          >
             {/* LEFT — TEXT */}
             <div>
               <p className="text-2xl font-light leading-relaxed text-white/90">
@@ -233,7 +239,7 @@ export default function Home() {
             </div>
 
             {/* RIGHT — LOGO */}
-            <div className="flex min-h-[350px] w-full items-center justify-center lg:min-h-[450px]">
+            {/* <div className="flex min-h-[350px] w-full items-center justify-center lg:min-h-[450px]">
               <div className="flex h-[40vh] w-[80vw] max-w-[500px] items-center justify-center overflow-hidden rounded-3xl bg-white/5 p-4 sm:w-[60vw] lg:h-[450px] lg:w-[35vw]">
                 <img
                   src="/volarelogo.jpeg"
@@ -241,7 +247,7 @@ export default function Home() {
                   className="h-full w-full object-contain"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
