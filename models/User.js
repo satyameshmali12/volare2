@@ -2,6 +2,12 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
+    role: {
+      // --> superadmin>admin>sponsors>common-user
+      type: String,
+      required: true,
+      trim: true,
+    },
     name: {
       type: String,
       required: true,

@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const users = await User.find().select("password");
+    const users = await User.find().select("email");
 
     return NextResponse.json(users);
   } catch (error) {
@@ -19,12 +19,13 @@ export async function GET() {
   }
 }
 
+// add authentication as only super admin can do this
 // POST /api/users   to create the user
 export async function POST(request) {
   try {
     await connectDB();
 
-    const { name, email, password } = await request.json();
+    const { name, email, password, role } = await request.json();
     console.log(name, email, password);
     if (!name || !email || !password) {
       return NextResponse.json(
@@ -48,6 +49,7 @@ export async function POST(request) {
     const user = await User.create({
       name,
       email,
+      role,
       password: hashedPassword,
     });
 
@@ -58,6 +60,7 @@ export async function POST(request) {
           id: user._id,
           name: user.name,
           email: user.email,
+          role: user.role,
         },
       },
       { status: 201 },

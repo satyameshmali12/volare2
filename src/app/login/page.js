@@ -30,6 +30,9 @@ export default function LoginPage() {
       });
 
       const data = await response.json();
+      // console.log("hello world");
+      console.log(data);
+      console.log(data.user.role);
 
       if (!response.ok) {
         setError(data.message);
@@ -41,8 +44,9 @@ export default function LoginPage() {
 
       // Optional: store user information
       localStorage.setItem("user", JSON.stringify(data.user));
-
-      router.push("/");
+      if (data.user.role == "superadmin") {
+        router.push("/admin");
+      } else router.push("/");
     } catch (error) {
       setError("Something went wrong");
     } finally {

@@ -25,6 +25,7 @@ export default function Contact() {
     setLoading(true);
     setStatus("");
 
+    // sending the mail to our account
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -40,14 +41,27 @@ export default function Contact() {
         throw new Error(data.error || "Something went wrong");
       }
 
-      setStatus("Message sent successfully!");
-
-      setForm({
-        name: "",
-        email: "",
-        message: "",
+      // adding the same message in the database so that also visible on the website
+      const response2 = await fetch("/api/admin/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          description: form.message,
+        }),
       });
+
+      // setForm({
+      //   name: "",
+      //   email: "",
+      //   message: "",
+      // });
+      setStatus("Message sent successfully!");
     } catch (error) {
+      console.log(error);
       setStatus(error.message);
     } finally {
       setLoading(false);
