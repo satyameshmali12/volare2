@@ -1,4 +1,5 @@
 "use client";
+import styles from "../../styles/responsive.module.css";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -28,7 +29,7 @@ export default function CrazyVideo() {
           muted
           loop
           playsInline
-          className="h-full w-full object-cover grayscale contrast-110 brightness-[0.65]"
+          className="h-full object-contain w-full object-cover grayscale contrast-110 brightness-[0.65]"
         />
 
         {/* Cinematic overlay */}
