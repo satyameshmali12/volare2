@@ -18,9 +18,9 @@ export default function CrazyVideo() {
   };
 
   return (
-    <section className="relative h-[calc(100vh-80px)] min-h-[650px] w-full overflow-hidden bg-neutral-950">
+    <section className="relative h-[40vh] min-h-0 w-full overflow-hidden bg-neutral-950 md:h-[calc(100vh-80px)] md:min-h-[500px]">
       {/* VIDEO */}
-      <div className="absolute inset-y-0 left-1/2 w-[90%] -translate-x-1/2 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden md:inset-y-0 md:left-1/2 md:w-[90%] md:-translate-x-1/2">
         <video
           ref={videoRef}
           src="/volare.mp4"
