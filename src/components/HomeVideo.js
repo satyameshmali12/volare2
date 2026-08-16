@@ -18,7 +18,7 @@ export default function CrazyVideo() {
   };
 
   return (
-    <section className="relative hidden h-[calc(100vh-80px)] min-h-[650px] w-full overflow-hidden bg-neutral-950 lg:block">
+    <section className="relative h-[calc(100vh-80px)] min-h-[650px] w-full overflow-hidden bg-neutral-950">
       {/* VIDEO */}
       <div className="absolute inset-y-0 left-1/2 w-[90%] -translate-x-1/2 overflow-hidden">
         <video
