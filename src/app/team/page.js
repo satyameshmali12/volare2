@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import PageShell from "@/components/PageShell";
 import SectionTitle from "@/components/SectionTitle";
 import TeamRole from "@/components/TeamRole";
@@ -20,11 +22,14 @@ export default function Team() {
                 alt="Team Volare"
                 className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
               />
+
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+
               <div className="absolute bottom-8 left-8 text-white">
                 <p className="text-sm tracking-[0.3em] text-white/60">
                   TEAM VOLARE
                 </p>
+
                 <h2 className="mt-2 text-3xl font-bold">
                   One crew.
                   <br />
@@ -40,22 +45,37 @@ export default function Team() {
               </p>
 
               <div className="mt-10 space-y-5">
-                <TeamRole
-                  title="Mechanical"
-                  text="Structures, hull and mechanical systems"
-                />
-                <TeamRole
-                  title="Electrical"
-                  text="Power, electronics and control"
-                />
-                <TeamRole
-                  title="Software"
-                  text="Automation, telemetry and data"
-                />
-                <TeamRole
-                  title="Research"
-                  text="Energy, chemistry and optimization"
-                />
+                {/* MECHANICAL */}
+                <Link href="/team/mechanical" className="block">
+                  <TeamRole
+                    title="Mechanical"
+                    text="Structures, hull and mechanical systems"
+                  />
+                </Link>
+
+                {/* ELECTRICAL */}
+                <Link href="/team/electrical" className="block">
+                  <TeamRole
+                    title="Electrical"
+                    text="Power, electronics and control"
+                  />
+                </Link>
+
+                {/* SOFTWARE */}
+                <Link href="/team/software" className="block">
+                  <TeamRole
+                    title="Software"
+                    text="Automation, telemetry and data"
+                  />
+                </Link>
+
+                {/* RESEARCH */}
+                <Link href="/team/research" className="block">
+                  <TeamRole
+                    title="Research"
+                    text="Energy, chemistry and optimization"
+                  />
+                </Link>
               </div>
             </div>
           </div>
@@ -73,11 +93,14 @@ export default function Team() {
                   alt="Proposed Catarman"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
+
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+
                 <div className="absolute bottom-8 left-8 text-white">
                   <p className="text-sm tracking-[0.3em] text-white/60">
                     TEAM VOLARE
                   </p>
+
                   <h2 className="mt-2 text-3xl font-bold">
                     Proposed
                     <br />
@@ -90,6 +113,7 @@ export default function Team() {
                 <p className="text-3xl font-semibold leading-tight">
                   Every component has a reason.
                 </p>
+
                 <p className="mt-6 leading-8 text-black/50">
                   Our boat is more than a vehicle. It is a platform where
                   different engineering disciplines meet.
