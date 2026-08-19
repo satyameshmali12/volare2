@@ -81,7 +81,7 @@ export default function Team() {
           </div>
 
           <div className="mt-28">
-            <SectionTitle eyebrow="OUR CREATION" title="Built With Purpose." />
+            <SectionTitle eyebrow="1OUR CREATION" title="Built With Purpose." />
 
             <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
               <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-neutral-200">

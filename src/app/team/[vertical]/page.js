@@ -51,9 +51,9 @@ export default async function TeamVerticalPage({ params }) {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#f5f5f3] px-6 text-black">
         <div className="text-center">
-          <p className="text-xs uppercase tracking-[0.4em] text-black/40">
+          {/* <p className="text-xs uppercase tracking-[0.4em] text-black/40">
             Team Volare
-          </p>
+          </p> */}
 
           <h1 className="mt-4 text-5xl font-black tracking-tight">404</h1>
 
@@ -81,10 +81,13 @@ export default async function TeamVerticalPage({ params }) {
           HEADER
       ====================================================== */}
 
-      <section className="border-b border-black/10 px-5 pb-10 pt-28 sm:px-8 sm:pt-32 lg:px-12 lg:pb-14">
+      <section
+        className="border-b border-black/10 mx-6"
+        style={{ paddingTop: "100px" }}
+      >
         <div className="mx-auto max-w-7xl">
           {/* Small breadcrumb */}
-          <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-black/40">
+          {/* <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] text-black/40">
             <Link href="/team" className="transition hover:text-black">
               Team
             </Link>
@@ -92,24 +95,25 @@ export default async function TeamVerticalPage({ params }) {
             <span>/</span>
 
             <span>{info.title}</span>
-          </div>
+          </div> */}
 
           {/* Title */}
           <div className="mt-7 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-medium uppercase tracking-[0.35em] text-black/40">
+              {/* <p className="text-xs font-medium uppercase tracking-[0.35em] text-black/40">
                 Team Volare
-              </p>
+              </p> */}
 
               <h1 className="mt-2 text-4xl font-black tracking-[-0.04em] sm:text-5xl md:text-6xl">
                 {info.title}
               </h1>
             </div>
-
+          </div>
+          {/* <div>
             <p className="max-w-md text-sm leading-6 text-black/50 md:text-right">
               {info.description}
             </p>
-          </div>
+          </div> */}
 
           {/* Member count */}
           <div className="mt-8 flex items-center justify-between border-t border-black/10 pt-4">
@@ -144,7 +148,7 @@ export default async function TeamVerticalPage({ params }) {
             <div
               className="
                 grid
-                grid-cols-2
+                grid-cols-1
                 gap-x-3
                 gap-y-8
                 sm:grid-cols-2
@@ -154,7 +158,7 @@ export default async function TeamVerticalPage({ params }) {
                 lg:gap-x-6
                 lg:gap-y-14
                 xl:grid-cols-4
-              "
+                "
             >
               {data.members.map((member) => (
                 <article key={member._id} className="group min-w-0">
@@ -162,7 +166,7 @@ export default async function TeamVerticalPage({ params }) {
                       PROFILE IMAGE
                   ================================================== */}
 
-                  <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-neutral-200 sm:rounded-2xl">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-neutral-200 sm:rounded-2xl">
                     {member.image ? (
                       <img
                         src={member.image}
