@@ -11,7 +11,7 @@ export default function Team() {
       <section className="bg-[#f5f5f3] py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionTitle
-            eyebrow="03 — THE CREW"
+            eyebrow="THE CREW"
             title="The People Behind The Boat."
           />
 
@@ -81,10 +81,7 @@ export default function Team() {
           </div>
 
           <div className="mt-28">
-            <SectionTitle
-              eyebrow="04 — OUR CREATION"
-              title="Built With Purpose."
-            />
+            <SectionTitle eyebrow="OUR CREATION" title="Built With Purpose." />
 
             <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
               <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-neutral-200">

@@ -18,7 +18,7 @@ export default function Navbar() {
   return (
     <nav
       className="fixed left-0 top-0 z-50 w-full border-b border-white/10 backdrop-blur-xl"
-      style={{ backgroundColor: "#4f4e4e" }}
+      style={{ backgroundColor: "#0e0d0d" }}
     >
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
         <Link href="/" onClick={() => setMenuOpen(false)}>

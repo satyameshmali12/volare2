@@ -8,7 +8,7 @@ export default function Challenge() {
       <section className="bg-[#eeeeec] py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           <SectionTitle
-            eyebrow="02 — THE CHALLENGE"
+            eyebrow="THE CHALLENGE"
             title="Race. Innovate. Transform."
           />
 
