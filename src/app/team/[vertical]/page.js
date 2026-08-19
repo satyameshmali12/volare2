@@ -166,7 +166,7 @@ export default async function TeamVerticalPage({ params }) {
                       PROFILE IMAGE
                   ================================================== */}
 
-                  <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-neutral-200 sm:rounded-2xl">
+                  <div className="relative aspect-[16/9] overflow-hidden rounded-xl bg-neutral-200 sm:rounded-2xl1">
                     {member.image ? (
                       <img
                         src={member.image}
