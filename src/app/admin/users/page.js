@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import DeleteConfirmation from "@/components/admin/DeleteConfirmation";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/";
 
 const initialForm = {
   name: "",

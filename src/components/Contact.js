@@ -21,7 +21,6 @@ export default function Contact() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     setLoading(true);
     setStatus("");
 
@@ -54,11 +53,11 @@ export default function Contact() {
         }),
       });
 
-      // setForm({
-      //   name: "",
-      //   email: "",
-      //   message: "",
-      // });
+      setForm({
+        name: "",
+        email: "",
+        message: "",
+      });
       setStatus("Message sent successfully!");
     } catch (error) {
       console.log(error);
