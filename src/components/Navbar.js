@@ -87,7 +87,7 @@ export default function Navbar() {
 
           {/* RIGHT CTA */}
           <Link
-            href="/contact"
+            href="/technical-hub"
             className="
               rounded-full
               border border-white/25
@@ -101,7 +101,7 @@ export default function Navbar() {
               hover:border-white
             "
           >
-            Let&apos;s work
+            Technical Hub
           </Link>
         </div>
 
@@ -160,7 +160,7 @@ export default function Navbar() {
 
           {/* Mobile CTA */}
           <Link
-            href="/contact"
+            href="/technical-hub"
             className="
               rounded-full
               border border-white/20
@@ -172,7 +172,8 @@ export default function Navbar() {
               hover:text-[#242421]
             "
           >
-            Let&apos;s work
+            {/* Let&apos;s work */}
+            Technical Hub
           </Link>
         </div>
 
