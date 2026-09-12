@@ -8,6 +8,10 @@ import { cookies } from "next/headers";
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET);
 
+/*
+Login function takes the emal and password verifies and store the jwt in the cookie store
+and then verification is done by getUserByToken function
+*/
 export async function POST(request) {
   try {
     await connectDB();
@@ -20,7 +24,7 @@ export async function POST(request) {
         { status: 400 },
       );
     }
-    console.log(email, password);
+    // console.log(email, password);
 
     const user = await User.findOne({ email });
 
@@ -79,6 +83,7 @@ export async function POST(request) {
         name: user.name,
         email: user.email,
         role: user.role,
+        mustChangePassword: user.mustChangePassword,
       },
     });
   } catch (error) {

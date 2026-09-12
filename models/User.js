@@ -3,11 +3,12 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema(
   {
     role: {
-      // --> superadmin>admin>sponsors>common-user
       type: String,
+      enum: ["superadmin", "sponsor", "member"],
       required: true,
       trim: true,
     },
+
     name: {
       type: String,
       required: true,
@@ -25,6 +26,11 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+
+    mustChangePassword: {
+      type: Boolean,
+      default: true,
     },
   },
   {

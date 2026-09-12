@@ -30,7 +30,6 @@ export async function GET() {
 
 export async function POST(req) {
   try {
-    console.log("hello world");
     const body = await req.json();
 
     const { name, email, description } = body;

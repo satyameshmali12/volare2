@@ -1,55 +1,43 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import DeleteConfirmation from "@/components/admin/DeleteConfirmation";
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000/";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
 const initialForm = {
   name: "",
-  role: "",
-  vertical: "",
-  image: "",
-  bio: "",
-  linkedin: "",
-  github: "",
-  order: 0,
-  active: true,
+  email: "",
+  password: "",
+  role: "member",
 };
 
-export default function TeamManagement() {
+export default function UserManagement() {
   const [form, setForm] = useState(initialForm);
-  const [members, setMembers] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
+
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const [deleteOpen, setDeleteOpen] = useState(false);
-  const [memberToDelete, setMemberToDelete] = useState(null);
-  const [deleting, setDeleting] = useState(false);
-
-  // Fetch all team members
-  const fetchMembers = async () => {
+  const fetchUsers = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const res = await fetch(`${BASE_URL}/api/team`, {
+      const res = await fetch(`${BASE_URL}/api/users`, {
         method: "GET",
         cache: "no-store",
       });
-      console.log("hello world");
-      console.log(res);
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Failed to fetch members");
+        throw new Error(data.message || "Failed to fetch users");
       }
 
-      setMembers(Array.isArray(data) ? data : data.members || []);
+      setUsers(Array.isArray(data) ? data : data.users || []);
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
@@ -58,20 +46,18 @@ export default function TeamManagement() {
   };
 
   useEffect(() => {
-    fetchMembers();
+    fetchUsers();
   }, []);
 
-  // Handle form inputs
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
 
     setForm((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: value,
     }));
   };
 
-  // Add new member
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -80,73 +66,31 @@ export default function TeamManagement() {
       setError("");
       setSuccess("");
 
-      const payload = {
-        ...form,
-        order: Number(form.order),
-      };
-
-      const res = await fetch(`${BASE_URL}/api/team`, {
+      const res = await fetch(`${BASE_URL}/api/users`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(form),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.message || "Failed to add member");
+        throw new Error(data.message || "Failed to create user");
       }
 
-      setSuccess("Team member added successfully.");
+      setSuccess(
+        `${form.role === "sponsor" ? "Sponsor" : "Member"} created successfully.`,
+      );
 
       setForm(initialForm);
 
-      // Refresh the members list
-      await fetchMembers();
+      await fetchUsers();
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
       setSubmitting(false);
-    }
-  };
-
-  // Open confirmation dialog
-  const askDelete = (member) => {
-    setMemberToDelete(member);
-    setDeleteOpen(true);
-  };
-
-  // Delete member
-  const handleDelete = async () => {
-    if (!memberToDelete?._id) return;
-
-    try {
-      setDeleting(true);
-      setError("");
-
-      const res = await fetch(`${BASE_URL}/api/team?id=${memberToDelete._id}`, {
-        method: "DELETE",
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to delete member");
-      }
-
-      setMembers((prev) =>
-        prev.filter((member) => member._id !== memberToDelete._id),
-      );
-
-      setDeleteOpen(false);
-      setMemberToDelete(null);
-      setSuccess("Team member deleted successfully.");
-    } catch (err) {
-      setError(err.message || "Something went wrong");
-    } finally {
-      setDeleting(false);
     }
   };
 
@@ -156,11 +100,11 @@ export default function TeamManagement() {
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-            Team Management
+            User Management
           </h1>
 
           <p className="mt-1 text-sm text-gray-500">
-            Add, view and manage team members.
+            Create and manage Volare sponsors and members.
           </p>
         </div>
 
@@ -177,164 +121,119 @@ export default function TeamManagement() {
           </div>
         )}
 
-        {/* Add Member Form */}
-        <div className="mb-10 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
-          <h2 className="mb-6 text-xl font-semibold text-gray-900">
-            Add Team Member
-          </h2>
+        {/* Create User */}
+        <div className="mb-10 rounded-2xl border bg-white p-5 shadow-sm sm:p-7">
+          <div className="mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Create User</h2>
+
+            <p className="mt-1 text-sm text-gray-500">
+              Create a sponsor or member with an initial password.
+            </p>
+          </div>
 
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               {/* Name */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="name"
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
                   Name
                 </label>
 
                 <input
+                  id="name"
                   type="text"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
                   required
-                  placeholder="Enter member name"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black"
+                  placeholder="Enter full name"
+                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-100"
                 />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Email
+                </label>
+
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  placeholder="user@example.com"
+                  autoComplete="off"
+                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-100"
+                />
+              </div>
+
+              {/* Initial Password */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Initial Password
+                </label>
+
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  minLength={6}
+                  placeholder="Minimum 6 characters"
+                  autoComplete="new-password"
+                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-100"
+                />
+
+                <p className="mt-2 text-xs text-gray-400">
+                  The user will be required to change this password after their
+                  first login.
+                </p>
               </div>
 
               {/* Role */}
               <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Role
+                <label
+                  htmlFor="role"
+                  className="mb-2 block text-sm font-medium text-gray-700"
+                >
+                  Account Type
                 </label>
 
-                <input
-                  type="text"
+                <select
+                  id="role"
                   name="role"
                   value={form.role}
                   onChange={handleChange}
                   required
-                  placeholder="e.g. Team Lead"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none transition focus:border-black"
-                />
-              </div>
-
-              {/* Vertical */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Vertical
-                </label>
-
-                <select
-                  name="vertical"
-                  value={form.vertical}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none focus:border-black"
+                  className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-black focus:ring-2 focus:ring-gray-100"
                 >
-                  <option value="">Select vertical</option>
-                  <option value="mechanical">Mechanical</option>
-                  <option value="electrical">Electrical</option>
-                  <option value="software">Software</option>
+                  <option value="member">Member</option>
+                  <option value="sponsor">Sponsor</option>
                 </select>
               </div>
+            </div>
 
-              {/* Order */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Display Order
-                </label>
-
-                <input
-                  type="number"
-                  name="order"
-                  value={form.order}
-                  onChange={handleChange}
-                  min="0"
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black"
-                />
-              </div>
-
-              {/* Image */}
-              <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Image URL
-                </label>
-
-                <input
-                  type="url"
-                  name="image"
-                  value={form.image}
-                  onChange={handleChange}
-                  placeholder="https://..."
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black"
-                />
-              </div>
-
-              {/* LinkedIn */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  LinkedIn
-                </label>
-
-                <input
-                  type="url"
-                  name="linkedin"
-                  value={form.linkedin}
-                  onChange={handleChange}
-                  placeholder="https://linkedin.com/in/..."
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black"
-                />
-              </div>
-
-              {/* GitHub */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  GitHub
-                </label>
-
-                <input
-                  type="url"
-                  name="github"
-                  value={form.github}
-                  onChange={handleChange}
-                  placeholder="https://github.com/..."
-                  className="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black"
-                />
-              </div>
-
-              {/* Bio */}
-              <div className="md:col-span-2">
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Bio
-                </label>
-
-                <textarea
-                  name="bio"
-                  value={form.bio}
-                  onChange={handleChange}
-                  rows={4}
-                  placeholder="Write a short bio..."
-                  className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-black"
-                />
-              </div>
-
-              {/* Active */}
-              <div className="md:col-span-2">
-                <label className="flex cursor-pointer items-center gap-3">
-                  <input
-                    type="checkbox"
-                    name="active"
-                    checked={form.active}
-                    onChange={handleChange}
-                    className="h-4 w-4"
-                  />
-
-                  <span className="text-sm font-medium text-gray-700">
-                    Active member
-                  </span>
-                </label>
-              </div>
+            {/* Info */}
+            <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3">
+              <p className="text-sm text-gray-600">
+                🔐 The initial password is stored securely using bcrypt. The
+                user must create a new password when they log in for the first
+                time.
+              </p>
             </div>
 
             {/* Submit */}
@@ -344,125 +243,86 @@ export default function TeamManagement() {
                 disabled={submitting}
                 className="rounded-xl bg-black px-6 py-3 text-sm font-medium text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                {submitting ? "Adding..." : "Add Member"}
+                {submitting ? "Creating..." : "Create User"}
               </button>
             </div>
           </form>
         </div>
 
-        {/* Members */}
+        {/* Users */}
         <div>
           <div className="mb-5 flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">
-              Team Members
-            </h2>
+            <div>
+              <h2 className="text-xl font-semibold text-gray-900">Users</h2>
+
+              <p className="mt-1 text-sm text-gray-500">
+                Sponsors and members created by the superadmin.
+              </p>
+            </div>
 
             <span className="rounded-full bg-gray-200 px-3 py-1 text-sm text-gray-700">
-              {members.length} Members
+              {users.length} Users
             </span>
           </div>
 
           {loading ? (
             <div className="rounded-2xl bg-white p-8 text-center text-sm text-gray-500 shadow-sm">
-              Loading members...
+              Loading users...
             </div>
-          ) : members.length === 0 ? (
+          ) : users.length === 0 ? (
             <div className="rounded-2xl bg-white p-8 text-center text-sm text-gray-500 shadow-sm">
-              No team members found.
+              No users found.
             </div>
           ) : (
             <div className="space-y-4">
-              {members.map((member) => (
+              {users.map((user) => (
                 <div
-                  key={member._id}
-                  className="flex flex-col gap-5 rounded-2xl bg-white p-4 shadow-sm transition hover:shadow-md sm:flex-row sm:items-center"
+                  key={user._id}
+                  className="flex flex-col gap-4 rounded-2xl border bg-white p-5 shadow-sm transition hover:shadow-md sm:flex-row sm:items-center sm:justify-between"
                 >
-                  {/* Image */}
-                  <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-gray-100">
-                    {member.image ? (
-                      <img
-                        src={member.image}
-                        alt={member.name}
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-2xl font-bold text-gray-400">
-                        {member.name?.charAt(0)?.toUpperCase()}
-                      </div>
-                    )}
-                  </div>
+                  {/* User info */}
+                  <div className="flex min-w-0 items-center gap-4">
+                    {/* Avatar */}
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gray-100 text-lg font-bold text-gray-700">
+                      {user.name?.charAt(0)?.toUpperCase()}
+                    </div>
 
-                  {/* Details */}
-                  <div className="min-w-0 flex-1">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-lg font-semibold text-gray-900">
-                        {member.name}
+                    <div className="min-w-0">
+                      <h3 className="truncate text-base font-semibold text-gray-900">
+                        {user.name}
                       </h3>
 
-                      <span
-                        className={`rounded-full px-2.5 py-1 text-xs font-medium ${
-                          member.active
-                            ? "bg-green-100 text-green-700"
-                            : "bg-gray-100 text-gray-500"
-                        }`}
-                      >
-                        {member.active ? "Active" : "Inactive"}
-                      </span>
-                    </div>
-
-                    <p className="mt-1 text-sm font-medium text-gray-700">
-                      {member.role}
-                    </p>
-
-                    {member.vertical && (
-                      <p className="mt-1 text-xs capitalize text-gray-500">
-                        {member.vertical}
+                      <p className="truncate text-sm text-gray-500">
+                        {user.email}
                       </p>
-                    )}
-
-                    {member.bio && (
-                      <p className="mt-2 line-clamp-2 text-sm text-gray-500">
-                        {member.bio}
-                      </p>
-                    )}
-
-                    <div className="mt-3 flex flex-wrap gap-3 text-xs">
-                      {member.linkedin && (
-                        <a
-                          href={member.linkedin}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          LinkedIn
-                        </a>
-                      )}
-
-                      {member.github && (
-                        <a
-                          href={member.github}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-gray-700 hover:underline"
-                        >
-                          GitHub
-                        </a>
-                      )}
-
-                      <span className="text-gray-400">
-                        Order: {member.order}
-                      </span>
                     </div>
                   </div>
 
-                  {/* Delete */}
-                  <div className="shrink-0">
-                    <button
-                      onClick={() => askDelete(member)}
-                      className="w-full rounded-xl bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600 transition hover:bg-red-100 sm:w-auto"
+                  {/* Account info */}
+                  <div className="flex flex-wrap items-center gap-3">
+                    {/* Role */}
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-semibold capitalize ${
+                        user.role === "sponsor"
+                          ? "bg-purple-100 text-purple-700"
+                          : "bg-blue-100 text-blue-700"
+                      }`}
                     >
-                      Delete
-                    </button>
+                      {user.role}
+                    </span>
+
+                    {/* Password status */}
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                        user.mustChangePassword
+                          ? "bg-yellow-100 text-yellow-700"
+                          : "bg-green-100 text-green-700"
+                      }`}
+                    >
+                      {user.mustChangePassword
+                        ? "Password change required"
+                        : "Password updated"}
+                    </span>
                   </div>
                 </div>
               ))}
@@ -470,27 +330,6 @@ export default function TeamManagement() {
           )}
         </div>
       </div>
-
-      {/* Your existing confirmation component */}
-      <DeleteConfirmation
-        open={deleteOpen}
-        onCancel={() => {
-          if (!deleting) {
-            setDeleteOpen(false);
-            setMemberToDelete(null);
-          }
-        }}
-        onConfirm={handleDelete}
-      />
-
-      {/* Prevent accidental interaction while deleting */}
-      {deleting && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center bg-black/20">
-          <div className="rounded-xl bg-white px-6 py-4 text-sm font-medium shadow-xl">
-            Deleting member...
-          </div>
-        </div>
-      )}
     </div>
   );
 }

@@ -95,8 +95,6 @@ export default function LoginPage() {
 
       const data = await response.json();
 
-      // console.log(data);
-
       /*
        * IMPORTANT:
        * Check response.ok BEFORE accessing data.user.
@@ -119,14 +117,12 @@ export default function LoginPage() {
 
         return;
       }
-      //remove it later on
-      // Store JWT
-      localStorage.setItem("token", data.token);
 
-      // Store user information
-      localStorage.setItem("user", JSON.stringify(data.user));
-      setProgress(100);
-      // Redirect
+      if (data.user?.mustChangePassword === true) {
+        router.push("/change-password");
+        return;
+      }
+
       if (data.user?.role === "superadmin") {
         router.push("/admin");
       } else {
