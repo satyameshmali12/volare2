@@ -9,6 +9,8 @@ import {
   Database,
   LogOut,
   ShieldCheck,
+  House,
+  UserRoundCog,
 } from "lucide-react";
 
 const menuItems = [
@@ -18,9 +20,14 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
-    name: "Users",
+    name: "Add Users",
     href: "/admin/users",
     icon: Users,
+  },
+  {
+    name: "Manage Users",
+    href: "/admin/users/manage",
+    icon: UserRoundCog,
   },
   {
     name: "Messages",
@@ -33,9 +40,14 @@ const menuItems = [
     icon: Database,
   },
   {
-    name: "Settings",
-    href: "/admin/settings",
+    name: "Add Updates",
+    href: "/admin/updates/new",
     icon: Settings,
+  },
+  {
+    name: "Home",
+    href: "/",
+    icon: House,
   },
 ];
 
