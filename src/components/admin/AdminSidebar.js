@@ -35,11 +35,6 @@ const menuItems = [
     icon: Mail,
   },
   {
-    name: "Database",
-    href: "/admin/database",
-    icon: Database,
-  },
-  {
     name: "Add Updates",
     href: "/admin/updates/new",
     icon: Settings,
