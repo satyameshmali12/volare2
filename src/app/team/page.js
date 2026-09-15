@@ -10,42 +10,44 @@ export default function Team() {
     <PageShell>
       <section className="bg-[#f5f5f3] py-28">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
+          {/* CREW */}
           <SectionTitle
             eyebrow="THE CREW"
             title="The People Behind The Boat."
           />
 
           <div className="mt-16 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
-            <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-neutral-200">
+            {/* TEAM IMAGE */}
+            <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#0077B6]/10 bg-[#e6eeee]">
               <img
                 src="/teamvolare.jpeg"
                 alt="Team Volare"
                 className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#003B4A]/80 via-transparent to-transparent" />
 
               <div className="absolute bottom-8 left-8 text-white">
-                <p className="text-sm tracking-[0.3em] text-white/60">
+                <p className="text-sm font-bold tracking-[0.3em] text-[#6DE2E6]">
                   TEAM VOLARE
                 </p>
 
-                <h2 className="mt-2 text-3xl font-bold">
+                <h2 className="mt-2 text-3xl font-black">
                   One crew.
                   <br />
-                  One mission.
+                  <span className="text-[#7DE8D5]">One mission.</span>
                 </h2>
               </div>
             </div>
 
+            {/* ROLES */}
             <div className="flex flex-col justify-center">
-              <p className="text-lg leading-8 text-black/60">
+              <p className="text-lg leading-8 text-[#315A63]">
                 Behind every successful launch is a team willing to spend
                 countless hours designing, testing, failing and trying again.
               </p>
 
               <div className="mt-10 space-y-5">
-                {/* MECHANICAL */}
                 <Link href="/team/mechanical" className="block">
                   <TeamRole
                     title="Mechanical"
@@ -53,7 +55,6 @@ export default function Team() {
                   />
                 </Link>
 
-                {/* ELECTRICAL */}
                 <Link href="/team/electrical" className="block">
                   <TeamRole
                     title="Electrical"
@@ -61,7 +62,6 @@ export default function Team() {
                   />
                 </Link>
 
-                {/* SOFTWARE */}
                 <Link href="/team/software" className="block">
                   <TeamRole
                     title="Software"
@@ -69,7 +69,6 @@ export default function Team() {
                   />
                 </Link>
 
-                {/* RESEARCH */}
                 <Link href="/team/research" className="block">
                   <TeamRole
                     title="Research"
@@ -80,47 +79,62 @@ export default function Team() {
             </div>
           </div>
 
+          {/* CREATION */}
           <div className="mt-28">
-            <SectionTitle eyebrow="1OUR CREATION" title="Built With Purpose." />
+            <SectionTitle eyebrow="OUR CREATION" title="Built With Purpose." />
 
             <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
-              <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-black/10 bg-neutral-200">
+              {/* BOAT IMAGE */}
+              <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#00A896]/10 bg-[#e6eeee]">
                 <img
                   src="/proposedcatarman.jpeg"
                   alt="Proposed Catarman"
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
                 />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#003B4A]/80 via-transparent to-transparent" />
 
                 <div className="absolute bottom-8 left-8 text-white">
-                  <p className="text-sm tracking-[0.3em] text-white/60">
+                  <p className="text-sm font-bold tracking-[0.3em] text-[#6DE2E6]">
                     TEAM VOLARE
                   </p>
 
-                  <h2 className="mt-2 text-3xl font-bold">
+                  <h2 className="mt-2 text-3xl font-black">
                     Proposed
                     <br />
-                    Catarman
+                    <span className="text-[#7DE8D5]">Catarman</span>
                   </h2>
                 </div>
               </div>
 
+              {/* DESCRIPTION */}
               <div>
-                <p className="text-3xl font-semibold leading-tight">
+                <p className="bg-gradient-to-r from-[#0077B6] to-[#00A896] bg-clip-text text-3xl font-black leading-tight text-transparent">
                   Every component has a reason.
                 </p>
 
-                <p className="mt-6 leading-8 text-black/50">
+                <p className="mt-6 leading-8 text-[#527078]">
                   Our boat is more than a vehicle. It is a platform where
                   different engineering disciplines meet.
                 </p>
 
+                {/* FEATURES */}
                 <div className="mt-10 grid grid-cols-2 gap-6">
-                  <Feature title="Propulsion" icon="⚡" />
-                  <Feature title="Hydrodynamics" icon="〰" />
-                  <Feature title="Electronics" icon="◉" />
-                  <Feature title="Control" icon="⌁" />
+                  <div className="rounded-2xl border border-[#0077B6]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#0077B6]/30">
+                    <Feature title="Propulsion" icon="⚡" />
+                  </div>
+
+                  <div className="rounded-2xl border border-[#00B4D8]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00B4D8]/30">
+                    <Feature title="Hydrodynamics" icon="〰" />
+                  </div>
+
+                  <div className="rounded-2xl border border-[#00A896]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00A896]/30">
+                    <Feature title="Electronics" icon="◉" />
+                  </div>
+
+                  <div className="rounded-2xl border border-[#6C63FF]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#6C63FF]/30">
+                    <Feature title="Control" icon="⌁" />
+                  </div>
                 </div>
               </div>
             </div>
