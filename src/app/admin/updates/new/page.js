@@ -152,8 +152,31 @@ export default function NewUpdatePage() {
       }
 
       alert("Update created successfully.");
+      setForm({
+        title: "",
+        image: "",
+        googleDriveLink: "",
+        description: "",
 
-      router.push("/admin/updates");
+        visibility: "public",
+        sponsors: [],
+
+        dateTime: "",
+        location: "",
+
+        category: "general",
+
+        amountSpent: "",
+        currency: "INR",
+
+        resourceUsed: "",
+
+        tags: "",
+
+        published: true,
+      });
+
+      // router.push("/admin/updates");
     } catch (error) {
       console.error(error);
 

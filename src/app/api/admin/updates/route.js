@@ -118,7 +118,7 @@ export async function POST(req) {
     // CREATE UPDATE
     // -----------------------------------------
 
-    console.log("user:", user);
+    // console.log("user:", user);
 
     const update = await Update.create({
       title: title.trim(),

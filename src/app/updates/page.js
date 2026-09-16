@@ -508,7 +508,7 @@ export default function UpdatesPage() {
         <div className="pointer-events-none absolute -bottom-48 -left-32 h-[430px] w-[430px] rounded-full border-[70px] border-violet-100/60" />
 
         <div className="relative mx-auto max-w-7xl px-5 pb-12 pt-16 sm:px-8 sm:pb-16 sm:pt-20 lg:px-10">
-          <div className="max-w-4xl">
+          <div className="max-w-4xl" style={{ marginTop: "20px" }}>
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-cyan-100 bg-cyan-50 px-4 py-2 text-xs font-black uppercase tracking-[0.15em] text-cyan-700">
               Team Volare
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" />

@@ -414,6 +414,39 @@ export default function Navbar() {
                   →
                 </span>
               </Link>
+              <Link
+                style={{ marginTop: "10px" }}
+                href="/technical-hub"
+                onClick={() => setMenuOpen(false)}
+                className="
+                  group flex items-center justify-between
+                  rounded-2xl
+                  bg-gray-100
+                  px-4 py-4
+                  text-gray-900
+                  transition-all duration-300
+                  hover:bg-gray-950
+                  hover:text-white
+                "
+              >
+                <div>
+                  <p className="text-sm font-bold">Technical Hub</p>
+
+                  <p className="mt-0.5 text-xs text-gray-400">
+                    Project updates & resources
+                  </p>
+                </div>
+
+                <span
+                  className="
+                    text-lg
+                    transition-transform duration-300
+                    group-hover:translate-x-1
+                  "
+                >
+                  →
+                </span>
+              </Link>
             </div>
           </div>
 

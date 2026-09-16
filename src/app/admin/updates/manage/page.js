@@ -160,7 +160,7 @@ export default function ManageUpdates() {
           </div>
 
           <Link
-            href="/admin/updates/create"
+            href="/admin/updates/new"
             className="
               inline-flex
               items-center

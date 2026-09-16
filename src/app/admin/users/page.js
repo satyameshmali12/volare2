@@ -26,7 +26,7 @@ export default function UserManagement() {
       setLoading(true);
       setError("");
 
-      const res = await fetch(`${BASE_URL}/api/users`, {
+      const res = await fetch("/api/users", {
         method: "GET",
         cache: "no-store",
       });

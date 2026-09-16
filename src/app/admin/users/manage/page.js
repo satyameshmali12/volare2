@@ -16,7 +16,8 @@ export default function ManageUsers() {
       });
 
       const data = await response.json();
-
+      console.log("data:", data);
+      console.log(response.ok, data.success);
       if (!response.ok || !data.success) {
         throw new Error(data.message || "Failed to load users");
       }

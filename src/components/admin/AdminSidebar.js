@@ -1,16 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   Users,
   Mail,
-  Settings,
-  Database,
   LogOut,
   ShieldCheck,
   House,
   UserRoundCog,
+  SavePlus,
+  Squirrel,
+  Cpu,
+  Panda,
 } from "lucide-react";
 
 const menuItems = [
@@ -29,15 +32,31 @@ const menuItems = [
     href: "/admin/users/manage",
     icon: UserRoundCog,
   },
+
+  {
+    name: "Add Updates",
+    href: "/admin/updates/new",
+    icon: SavePlus,
+  },
+  {
+    name: "Manage Updates",
+    href: "/admin/updates/manage",
+    icon: Squirrel,
+  },
   {
     name: "Messages",
     href: "/admin/messages",
     icon: Mail,
   },
   {
-    name: "Add Updates",
-    href: "/admin/updates/new",
-    icon: Settings,
+    name: "Volare Hub",
+    href: "/updates",
+    icon: Panda,
+  },
+  {
+    name: "Technical Hub",
+    href: "/technical-hub",
+    icon: Cpu,
   },
   {
     name: "Home",
@@ -47,6 +66,26 @@ const menuItems = [
 ];
 
 export default function AdminSidebar() {
+  const router = useRouter();
+
+  async function handleLogout() {
+    try {
+      const response = await fetch("/api/users/logout", {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Logout failed");
+      }
+
+      router.push("/login");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  }
   return (
     <aside
       className="
@@ -132,15 +171,16 @@ export default function AdminSidebar() {
       {/* Logout */}
       <div className="absolute bottom-5 left-2 right-2">
         <button
+          onClick={handleLogout}
           className="
-            flex
-            items-center
-            h-12
-            w-full
-            rounded-lg
-            hover:bg-red-500/20
-            transition
-          "
+      flex
+      items-center
+      h-12
+      w-full
+      rounded-lg
+      hover:bg-red-500/20
+      transition
+    "
         >
           <div className="min-w-12 flex justify-center">
             <LogOut size={21} />
@@ -148,14 +188,14 @@ export default function AdminSidebar() {
 
           <span
             className="
-              whitespace-nowrap
-              opacity-0
-              group-hover:opacity-100
-              transition-opacity
-              duration-200
-              ml-2
-              text-sm
-            "
+        whitespace-nowrap
+        opacity-0
+        group-hover:opacity-100
+        transition-opacity
+        duration-200
+        ml-2
+        text-sm
+      "
           >
             Logout
           </span>

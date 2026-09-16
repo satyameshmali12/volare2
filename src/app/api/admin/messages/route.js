@@ -34,6 +34,7 @@ export async function POST(req) {
 
     const { name, email, description } = body;
     console.log(name, email, description);
+    console.log(name, email, description);
 
     // Validate input
     if (!name || !email || !description) {
