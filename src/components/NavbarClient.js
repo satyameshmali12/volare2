@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -13,38 +14,66 @@ const navItems = [
   { name: "Contact", href: "/contact" },
 ];
 
-export default function Navbar() {
+export default function NavbarClient({ isSuperAdmin }) {
   const pathname = usePathname();
+  const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [show, setShow] = useState(false);
+
+  /*
+   * =========================================================
+   *                  NAVIGATION ITEMS
+   * =========================================================
+   *
+   * Admin is added directly from the server-provided
+   * isSuperAdmin value.
+   *
+   * No useState or useEffect is required here.
+   */
+
+  // useEffect(() => {
+  //   console.log("from navbar client", isSuperAdmin);
+  //   setNavigaionItems(
+  //     isSuperAdmin
+  //       ? [...navItems, { name: "Admin", href: "/admin" }]
+  //       : navItems,
+  //   );
+  // }, [pathname]);
 
   const isAdmin = pathname.startsWith("/admin");
 
-  /* ================= AUTH CHECK ================= */
+  /*
+   * =========================================================
+   *                     AUTH CHECK
+   * =========================================================
+   */
 
   useEffect(() => {
     setMounted(true);
 
     async function checkAuth() {
       try {
-        const response = await fetch("/api/updates", {
+        const response = await fetch("/api/users/me", {
           cache: "no-store",
         });
 
         if (!response.ok) {
           setLoggedIn(false);
+          setShow(false);
           return;
         }
 
         const data = await response.json();
-
+        setShow(data.userType === "superadmin");
         setLoggedIn(
           data.userType === "member" ||
             data.userType === "sponsor" ||
             data.userType === "superadmin",
         );
+        console.log("show", show);
       } catch (error) {
         console.error("Navbar auth check failed:", error);
         setLoggedIn(false);
@@ -54,17 +83,29 @@ export default function Navbar() {
     checkAuth();
   }, [pathname]);
 
-  /* ================= CLOSE MENU ON ROUTE CHANGE ================= */
+  /*
+   * =========================================================
+   *                 CLOSE MENU ON ROUTE CHANGE
+   * =========================================================
+   */
 
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
 
-  /* ================= ADMIN ================= */
+  /*
+   * =========================================================
+   *                       ADMIN PAGES
+   * =========================================================
+   */
 
   if (isAdmin) {
     return null;
   }
+
+  const navigationItems = show
+    ? [{ name: "Admin", href: "/admin" }, ...navItems]
+    : navItems;
 
   return (
     <>
@@ -297,8 +338,6 @@ export default function Navbar() {
               </h2>
             </div>
 
-            {/* CLOSE BUTTON */}
-
             <button
               type="button"
               aria-label="Close navigation"
@@ -325,7 +364,7 @@ export default function Navbar() {
 
           <div className="flex-1 overflow-y-auto px-5 py-6">
             <div className="flex flex-col gap-2">
-              {navItems.map((item, index) => {
+              {navigationItems.map((item, index) => {
                 const active = pathname === item.href;
 
                 return (
@@ -414,11 +453,12 @@ export default function Navbar() {
                   →
                 </span>
               </Link>
+
               <Link
-                style={{ marginTop: "10px" }}
                 href="/technical-hub"
                 onClick={() => setMenuOpen(false)}
                 className="
+                  mt-[10px]
                   group flex items-center justify-between
                   rounded-2xl
                   bg-gray-100

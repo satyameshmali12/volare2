@@ -81,26 +81,36 @@ export default function Contact() {
               message.
             </p>
           </div>
-
+          {/* CONTACT DETAILS */}
           {/* CONTACT DETAILS */}
           <div className="flex flex-wrap gap-x-7 gap-y-3 text-sm">
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=satyameshmalimern123@gmail.com"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="mailto:teamvolare@ictmumbai.edu.in"
               className="flex items-center gap-2 font-medium text-[#0077B6] transition hover:text-[#00A896]"
             >
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0077B6]/10">
                 @
               </span>
-              satyameshmalimern123@gmail.com
+
+              <span>
+                <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  Email us at
+                </span>
+                <span className="block">teamvolare@ictmumbai.edu.in</span>
+              </span>
             </a>
 
             <p className="flex items-center gap-2 font-medium text-[#0077B6]">
               <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#00A896]/10">
                 ☎
               </span>
-              +91 9XXXXXXXXX
+
+              <span>
+                <span className="block text-xs font-semibold uppercase tracking-wider text-gray-500">
+                  Call us
+                </span>
+                <span className="block">+91 9XXXXXXXXX</span>
+              </span>
             </p>
           </div>
         </div>
@@ -234,7 +244,7 @@ export default function Contact() {
                 hover:bg-[#005f91]
                 hover:shadow-lg
                 hover:shadow-[#0077B6]/20
-                disabled:cursor-not-allowed
+                disabled:cursor-not-allowed1
                 disabled:opacity-60
                 sm:w-auto
               "

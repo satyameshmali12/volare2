@@ -1,7 +1,7 @@
-import Navbar from "@/components/Navbar";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import NavigationTopLoader from "@/components/NavigationTopLoader";
+import NavbarServer from "@/components/NavbarServer";
 // import { useState } from "react";
 
 export const metadata = {
@@ -9,10 +9,10 @@ export const metadata = {
   description: "Engineering, innovation and marine technology.",
 };
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
   return (
     <>
-      <Navbar />
+      <NavbarServer />
       <html lang="en" style={{ marginTop: "20px" }}>
         <body>
           <NavigationTopLoader />

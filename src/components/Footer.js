@@ -9,21 +9,33 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col justify-between gap-5 px-6 sm:flex-row sm:items-center lg:px-10">
         <div>
           <p className="font-bold tracking-[0.3em]">TEAM VOLARE</p>
+
           <p className="mt-2 text-xs text-white/40">
             Engineering the future through innovation.
           </p>
+
+          {/* EMAIL */}
+          <a
+            href="mailto:teamvolare@ictmumbai.edu.in"
+            className="mt-3 inline-block text-xs text-white/50 transition hover:text-white"
+          >
+            teamvolare@ictmumbai.edu.in
+          </a>
         </div>
 
         <div className="flex gap-5 text-xs text-white/50">
           <Link href="/who-we-are" className="hover:text-white">
             Who We Are
           </Link>
+
           <Link href="/challenge" className="hover:text-white">
             Challenge
           </Link>
+
           <Link href="/team" className="hover:text-white">
             Team
           </Link>
+
           <Link href="/contact" className="hover:text-white">
             Contact
           </Link>

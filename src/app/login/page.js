@@ -15,6 +15,11 @@ export default function LoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  const [progress, setProgress] = useState(0);
+
   // Mouse position used by the eyes
   const [mousePosition, setMousePosition] = useState({
     x: 0,
@@ -25,18 +30,53 @@ export default function LoginPage() {
   const [wrongLogin, setWrongLogin] = useState(false);
 
   /*
-   * Track the mouse across the whole window.
-   *
-   * x and y are converted to values between -1 and +1.
-   *
-   * -1 = left / top
-   *  0 = center
-   * +1 = right / bottom
+   * =========================================================
+   *                     CHECK AUTH
+   * =========================================================
    */
+
+  useEffect(() => {
+    async function checkAuth() {
+      try {
+        const response = await fetch("/api/users/me", {
+          cache: "no-store",
+        });
+        console.log("respones", response);
+
+        if (!response.ok) {
+          setLoggedIn(false);
+          return;
+        }
+
+        const data = await response.json();
+
+        const isLoggedIn =
+          data.userType === "member" ||
+          data.userType === "sponsor" ||
+          data.userType === "superadmin";
+        console.log("is Logged In", isLoggedIn);
+        setLoggedIn(isLoggedIn);
+        console.log("write from the login page", loggedIn);
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        setLoggedIn(false);
+      } finally {
+        setCheckingAuth(false);
+      }
+    }
+
+    checkAuth();
+  }, []);
+
+  /*
+   * =========================================================
+   *                  MOUSE TRACKING
+   * =========================================================
+   */
+
   useEffect(() => {
     function handleMouseMove(e) {
       const x = (e.clientX / window.innerWidth) * 2 - 1;
-
       const y = (e.clientY / window.innerHeight) * 2 - 1;
 
       setMousePosition({
@@ -53,14 +93,11 @@ export default function LoginPage() {
   }, []);
 
   /*
-   * Calculate pupil movement.
-   *
-   * Normal:
-   *   pupil follows mouse.
-   *
-   * Show password:
-   *   pupil does the exact opposite.
+   * =========================================================
+   *                     EYE MOVEMENT
+   * =========================================================
    */
+
   const eyeX = showPassword ? mousePosition.x * -7 : mousePosition.x * 7;
 
   const eyeY = showPassword ? mousePosition.y * -7 : mousePosition.y * 7;
@@ -70,13 +107,18 @@ export default function LoginPage() {
     "--eye-y": `${eyeY}px`,
   };
 
+  /*
+   * =========================================================
+   *                       LOGIN
+   * =========================================================
+   */
+
   async function handleLogin(e) {
     e.preventDefault();
 
     setError("");
     setWrongLogin(false);
     setLoading(true);
-
     setProgress(10);
 
     try {
@@ -95,37 +137,50 @@ export default function LoginPage() {
 
       const data = await response.json();
 
-      /*
-       * IMPORTANT:
-       * Check response.ok BEFORE accessing data.user.
-       *
-       * Otherwise an invalid login could cause:
-       * "Cannot read properties of undefined"
-       */
       if (!response.ok) {
         setError(data.message || "Invalid email or password");
 
-        /*
-         * Trigger the reaction even if the user
-         * submits wrong credentials multiple times.
-         */
         setWrongLogin(false);
 
         requestAnimationFrame(() => {
           setWrongLogin(true);
         });
 
+        setProgress(0);
         return;
       }
 
+      /*
+       * Login succeeded.
+       *
+       * The login API has now set the authentication cookie.
+       */
+
+      setProgress(80);
+
+      /*
+       * Refresh the server components so NavbarServer
+       * runs requireSuperAdmin() again with the new cookie.
+       */
+      router.refresh();
+
+      /*
+       * First-time users must change their password.
+       */
       if (data.user?.mustChangePassword === true) {
+        setProgress(100);
         router.push("/change-password");
         return;
       }
 
+      /*
+       * Superadmin goes to admin.
+       */
       if (data.user?.role === "superadmin") {
+        setProgress(100);
         router.push("/admin");
       } else {
+        setProgress(100);
         router.push("/");
       }
     } catch (err) {
@@ -138,11 +193,121 @@ export default function LoginPage() {
       requestAnimationFrame(() => {
         setWrongLogin(true);
       });
+
+      setProgress(0);
     } finally {
       setLoading(false);
     }
   }
-  const [progress, setProgress] = useState(0);
+
+  /*
+   * =========================================================
+   *                       LOGOUT
+   * =========================================================
+   */
+
+  async function handleLogout() {
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch("/api/users/logout", {
+        method: "POST",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.message || "Logout failed");
+      }
+
+      /*
+       * Cookie has been removed.
+       *
+       * Refresh the server components so NavbarServer
+       * sees that the user is no longer authenticated.
+       */
+      setLoggedIn(false);
+      // router.refresh();
+      router.push("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+      setError(error.message || "Logout failed");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  /*
+   * =========================================================
+   *                   AUTH CHECK LOADING
+   * =========================================================
+   */
+
+  if (checkingAuth) {
+    return (
+      <main className={styles.page}>
+        <TopLoader progress={100} />
+
+        <section className={styles.formSide}>
+          <div className={styles.form}>
+            <div className={styles.heading}>
+              <p>Volare Hub</p>
+
+              <h1>Checking...</h1>
+
+              <span>Checking your session.</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    );
+  }
+
+  /*
+   * =========================================================
+   *                ALREADY LOGGED IN
+   * =========================================================
+   */
+
+  if (loggedIn) {
+    return (
+      <main className={styles.loggedInPage}>
+        <div className={styles.loggedInCard}>
+          <div className={styles.logoMark}>V</div>
+
+          <p className={styles.smallText}>VOLARE HUB</p>
+
+          <h1>You're in.</h1>
+
+          <p className={styles.description}>
+            You're already signed in to your Volare account.
+          </p>
+
+          {error && <div className={styles.error}>{error}</div>}
+
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={loading}
+            className={styles.loginButton}
+          >
+            {loading ? "Logging out..." : "Log Out"}
+          </button>
+
+          <p className={styles.securityText}>
+            Your session is active and secure.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
+  /*
+   * =========================================================
+   *                       LOGIN PAGE
+   * =========================================================
+   */
 
   return (
     <main className={styles.page}>
@@ -152,6 +317,7 @@ export default function LoginPage() {
 
       <section className={styles.visualSide}>
         <TopLoader progress={progress} />
+
         <div className={styles.visualContent}>
           <p className={styles.smallText}>KEEP IT SECRET</p>
 
@@ -165,9 +331,7 @@ export default function LoginPage() {
             Your password deserves some privacy.
           </p>
 
-          {/* =================================================
-              WATCHING CHARACTERS
-              ================================================= */}
+          {/* WATCHING CHARACTERS */}
 
           <div
             className={`
@@ -176,9 +340,7 @@ export default function LoginPage() {
               ${wrongLogin ? styles.wrongReaction : ""}
             `}
           >
-            {/* =================================================
-                ORANGE FACE
-                ================================================= */}
+            {/* ORANGE FACE */}
 
             <div
               className={`
@@ -197,9 +359,7 @@ export default function LoginPage() {
               <div className={styles.mouth} />
             </div>
 
-            {/* =================================================
-                PURPLE FACE
-                ================================================= */}
+            {/* PURPLE FACE */}
 
             <div
               className={`
@@ -218,9 +378,7 @@ export default function LoginPage() {
               <div className={styles.mouth} />
             </div>
 
-            {/* =================================================
-                BLACK FACE
-                ================================================= */}
+            {/* BLACK FACE */}
 
             <div
               className={`
@@ -239,9 +397,7 @@ export default function LoginPage() {
               <div className={styles.mouth} />
             </div>
 
-            {/* =================================================
-                YELLOW FACE
-                ================================================= */}
+            {/* YELLOW FACE */}
 
             <div
               className={`
@@ -261,9 +417,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          {/* =================================================
-              REACTION TEXT
-              ================================================= */}
+          {/* REACTION TEXT */}
 
           <div className={styles.reactionText}>
             {wrongLogin ? (
