@@ -80,7 +80,7 @@ export default function AdminSidebar() {
         throw new Error(data.message || "Logout failed");
       }
 
-      router.push("/login");
+      router.push("/");
       router.refresh();
     } catch (error) {
       console.error("Logout error:", error);
