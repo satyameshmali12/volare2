@@ -2,25 +2,25 @@ import "./globals.css";
 import Footer from "@/components/Footer";
 import NavigationTopLoader from "@/components/NavigationTopLoader";
 import NavbarServer from "@/components/NavbarServer";
-// import { useState } from "react";
+import CustomCursor from "@/components/CustomCursor";
 
 export const metadata = {
   title: "Team Volare",
   description: "Engineering, innovation and marine technology.",
 };
 
-export default async function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
-    <>
-      <NavbarServer />
-      <html lang="en" style={{ marginTop: "20px" }}>
-        <body>
-          <NavigationTopLoader />
-          {children}
-        </body>
-      </html>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <NavbarServer />
+        <CustomCursor />
+        <NavigationTopLoader />
 
-      <Footer />
-    </>
+        <main className="page-enter">{children}</main>
+
+        <Footer />
+      </body>
+    </html>
   );
 }

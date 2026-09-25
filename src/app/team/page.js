@@ -8,7 +8,7 @@ import Feature from "@/components/Feature";
 export default function Team() {
   return (
     <PageShell>
-      <section className="bg-[#f5f5f3] py-28">
+      <section className="bg-[#f5f5f3] py-28 dark:bg-[#0d1719]">
         <div className="mx-auto max-w-7xl px-6 lg:px-10">
           {/* CREW */}
           <SectionTitle
@@ -18,7 +18,7 @@ export default function Team() {
 
           <div className="mt-16 grid gap-12 lg:grid-cols-[1.4fr_1fr]">
             {/* TEAM IMAGE */}
-            <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#0077B6]/10 bg-[#e6eeee]">
+            <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#0077B6]/10 bg-[#e6eeee] dark:border-cyan-400/15 dark:bg-[#182528]">
               <img
                 src="/teamvolare.jpeg"
                 alt="Team Volare"
@@ -42,7 +42,7 @@ export default function Team() {
 
             {/* ROLES */}
             <div className="flex flex-col justify-center">
-              <p className="text-lg leading-8 text-[#315A63]">
+              <p className="text-lg leading-8 text-[#315A63] dark:text-gray-300">
                 Behind every successful launch is a team willing to spend
                 countless hours designing, testing, failing and trying again.
               </p>
@@ -85,7 +85,7 @@ export default function Team() {
 
             <div className="mt-16 grid items-center gap-12 lg:grid-cols-2">
               {/* BOAT IMAGE */}
-              <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#00A896]/10 bg-[#e6eeee]">
+              <div className="group relative aspect-[16/10] overflow-hidden rounded-3xl border border-[#00A896]/10 bg-[#e6eeee] dark:border-emerald-400/15 dark:bg-[#182528]">
                 <img
                   src="/proposedcatarman.jpeg"
                   alt="Proposed Catarman"
@@ -113,26 +113,26 @@ export default function Team() {
                   Every component has a reason.
                 </p>
 
-                <p className="mt-6 leading-8 text-[#527078]">
+                <p className="mt-6 leading-8 text-[#527078] dark:text-gray-300">
                   Our boat is more than a vehicle. It is a platform where
                   different engineering disciplines meet.
                 </p>
 
                 {/* FEATURES */}
                 <div className="mt-10 grid grid-cols-2 gap-6">
-                  <div className="rounded-2xl border border-[#0077B6]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#0077B6]/30">
+                  <div className="rounded-2xl border border-[#0077B6]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#0077B6]/30 dark:border-cyan-400/15 dark:bg-[#182528]/80 dark:hover:border-cyan-400/30">
                     <Feature title="Propulsion" icon="⚡" />
                   </div>
 
-                  <div className="rounded-2xl border border-[#00B4D8]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00B4D8]/30">
+                  <div className="rounded-2xl border border-[#00B4D8]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00B4D8]/30 dark:border-cyan-400/15 dark:bg-[#182528]/80 dark:hover:border-cyan-400/30">
                     <Feature title="Hydrodynamics" icon="〰" />
                   </div>
 
-                  <div className="rounded-2xl border border-[#00A896]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00A896]/30">
+                  <div className="rounded-2xl border border-[#00A896]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#00A896]/30 dark:border-emerald-400/15 dark:bg-[#182528]/80 dark:hover:border-emerald-400/30">
                     <Feature title="Electronics" icon="◉" />
                   </div>
 
-                  <div className="rounded-2xl border border-[#6C63FF]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#6C63FF]/30">
+                  <div className="rounded-2xl border border-[#6C63FF]/10 bg-white/70 p-5 transition hover:-translate-y-1 hover:border-[#6C63FF]/30 dark:border-violet-400/15 dark:bg-[#182528]/80 dark:hover:border-violet-400/30">
                     <Feature title="Control" icon="⌁" />
                   </div>
                 </div>

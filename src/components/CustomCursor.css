@@ -1,0 +1,155 @@
+/* =========================================
+   CUSTOM CURSOR
+========================================= */
+
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  pointer-events: none;
+
+  z-index: 99999;
+
+  will-change: transform;
+
+  transition:
+    opacity 0.25s ease,
+    width 0.25s ease,
+    height 0.25s ease,
+    margin 0.25s ease,
+    border-color 0.25s ease,
+    background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* =========================================
+   CENTER DOT
+========================================= */
+
+.custom-cursor-dot {
+  width: 7px;
+  height: 7px;
+
+  margin-left: -3.5px;
+  margin-top: -3.5px;
+
+  border-radius: 50%;
+
+  background: #00b4d8;
+
+  box-shadow: 0 0 10px rgba(0, 180, 216, 0.45);
+}
+
+/* =========================================
+   OUTER RING
+========================================= */
+
+.custom-cursor-ring {
+  width: 30px;
+  height: 30px;
+
+  margin-left: -15px;
+  margin-top: -15px;
+
+  border: 1px solid rgba(0, 119, 182, 0.45);
+
+  border-radius: 50%;
+
+  background: transparent;
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+:global(html.dark) .custom-cursor-dot {
+  background: #00b4d8;
+
+  box-shadow: 0 0 12px rgba(0, 180, 216, 0.55);
+}
+
+:global(html.dark) .custom-cursor-ring {
+  border-color: rgba(0, 180, 216, 0.55);
+}
+
+/* =========================================
+   INTERACTIVE ELEMENT
+========================================= */
+
+.custom-cursor-ring.cursor-hover {
+  width: 46px;
+  height: 46px;
+
+  margin-left: -23px;
+  margin-top: -23px;
+
+  border-color: #00b4d8;
+
+  background: rgba(0, 180, 216, 0.07);
+
+  box-shadow: 0 0 20px rgba(0, 180, 216, 0.12);
+}
+
+.custom-cursor-dot.cursor-dot-hover {
+  width: 5px;
+  height: 5px;
+
+  margin-left: -2.5px;
+  margin-top: -2.5px;
+
+  background: #0077b6;
+}
+
+:global(html.dark) .custom-cursor-dot.cursor-dot-hover {
+  background: #ffffff;
+}
+
+/* =========================================
+   CLICK
+========================================= */
+
+.custom-cursor-ring.cursor-click {
+  width: 24px;
+  height: 24px;
+
+  margin-left: -12px;
+  margin-top: -12px;
+
+  border-color: #00a896;
+
+  background: rgba(0, 168, 150, 0.08);
+}
+
+/* =========================================
+   HIDDEN
+========================================= */
+
+.custom-cursor-dot.cursor-hidden,
+.custom-cursor-ring.cursor-hidden {
+  opacity: 0;
+}
+
+/* =========================================
+   DISABLE ON TOUCH DEVICES
+========================================= */
+
+@media (pointer: coarse) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    transition: none;
+  }
+}

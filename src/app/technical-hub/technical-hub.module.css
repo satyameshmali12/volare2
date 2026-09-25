@@ -1,9 +1,16 @@
 .page {
   --bg: #f3f3ef;
   --surface: #fafaf7;
+  --surface-soft: rgba(255, 255, 255, 0.58);
+  --surface-solid: #ffffff;
+
   --ink: #111;
   --muted: #777771;
   --line: #d8d8d2;
+
+  --grid: rgba(0, 0, 0, 0.035);
+  --ring: rgba(0, 0, 0, 0.09);
+  --soft-line: rgba(0, 0, 0, 0.055);
 
   position: relative;
   min-height: 100vh;
@@ -11,6 +18,29 @@
 
   background: var(--bg);
   color: var(--ink);
+
+  transition:
+    background-color 0.5s ease,
+    color 0.5s ease;
+}
+
+/* =================================
+   DARK THEME
+================================= */
+
+:global(html.dark) .page {
+  --bg: #101418;
+  --surface: #151b20;
+  --surface-soft: rgba(255, 255, 255, 0.035);
+  --surface-solid: #151b20;
+
+  --ink: #f5f5f3;
+  --muted: #9ca6aa;
+  --line: rgba(255, 255, 255, 0.12);
+
+  --grid: rgba(255, 255, 255, 0.035);
+  --ring: rgba(255, 255, 255, 0.1);
+  --soft-line: rgba(255, 255, 255, 0.07);
 }
 
 /* =================================
@@ -26,8 +56,8 @@
   opacity: 0.5;
 
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.035) 1px, transparent 1px);
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
 
   background-size: 55px 55px;
 
@@ -37,7 +67,7 @@
 .ring {
   position: absolute;
 
-  border: 1px solid rgba(0, 0, 0, 0.09);
+  border: 1px solid var(--ring);
 
   border-radius: 50%;
 
@@ -69,7 +99,7 @@
   top: 420px;
   left: -115px;
 
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--ring);
 
   border-radius: 50%;
 
@@ -83,7 +113,7 @@
 
   inset: 25px;
 
-  border: 1px dashed rgba(0, 0, 0, 0.1);
+  border: 1px dashed var(--ring);
 
   border-radius: 50%;
 }
@@ -99,7 +129,7 @@
 
   border-radius: 50%;
 
-  background: #111;
+  background: var(--ink);
 }
 
 .cross {
@@ -114,7 +144,7 @@
 .cross span {
   position: absolute;
 
-  background: #111;
+  background: var(--ink);
   opacity: 0.3;
 }
 
@@ -140,6 +170,7 @@
 .crossTwo {
   top: 610px;
   right: 10%;
+
   transform: scale(0.7);
 }
 
@@ -152,7 +183,7 @@
   top: 380px;
   right: -130px;
 
-  background: rgba(0, 0, 0, 0.1);
+  background: var(--ring);
 
   transform: rotate(-35deg);
 }
@@ -186,14 +217,19 @@
 
   border-radius: 999px;
 
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--surface-soft);
 
-  color: #686863;
+  color: var(--muted);
 
   font-size: 9px;
   font-weight: 700;
 
   letter-spacing: 0.16em;
+
+  transition:
+    background-color 0.5s ease,
+    border-color 0.5s ease,
+    color 0.5s ease;
 }
 
 .liveDot {
@@ -202,11 +238,15 @@
 
   border-radius: 50%;
 
-  background: #111;
+  background: var(--ink);
 }
 
 .slash {
   color: #bbb;
+}
+
+:global(html.dark) .slash {
+  color: #555f63;
 }
 
 .hero h1 {
@@ -223,6 +263,10 @@
 
 .hero h1 span {
   color: #85857f;
+}
+
+:global(html.dark) .hero h1 span {
+  color: #8d969a;
 }
 
 .heroDescription {
@@ -250,11 +294,11 @@
 
   margin: auto;
 
-  border: 1px solid #c9c9c3;
+  border: 1px solid var(--line);
 
   border-radius: 18px;
 
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--surface-solid);
 
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.08);
 
@@ -262,7 +306,12 @@
 
   transition:
     border-color 0.2s ease,
-    box-shadow 0.2s ease;
+    box-shadow 0.2s ease,
+    background-color 0.5s ease;
+}
+
+:global(html.dark) .searchBox {
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.3);
 }
 
 .searchBox:focus-within {
@@ -271,10 +320,16 @@
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.11);
 }
 
+:global(html.dark) .searchBox:focus-within {
+  border-color: #536168;
+
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+}
+
 .searchSymbol {
   margin-left: 24px;
 
-  color: #777;
+  color: var(--muted);
 
   font-size: 28px;
 }
@@ -293,7 +348,7 @@
 
   background: transparent;
 
-  color: #111;
+  color: var(--ink);
 
   font-family: inherit;
 
@@ -302,6 +357,10 @@
 
 .searchBox input::placeholder {
   color: #999;
+}
+
+:global(html.dark) .searchBox input::placeholder {
+  color: #69757a;
 }
 
 .searchHint {
@@ -316,7 +375,6 @@
   color: #999;
 
   font-size: 8px;
-
   font-weight: 700;
 
   letter-spacing: 0.12em;
@@ -396,7 +454,7 @@
 .sectionLabel {
   margin-bottom: 18px;
 
-  color: #8b8b85;
+  color: var(--muted);
 
   font-size: 9px;
 
@@ -426,9 +484,9 @@
 
   border-radius: 15px;
 
-  background: rgba(255, 255, 255, 0.58);
+  background: var(--surface-soft);
 
-  color: #111;
+  color: var(--ink);
 
   text-align: left;
 
@@ -445,7 +503,13 @@
 
   border-color: #aaa;
 
-  background: #fff;
+  background: var(--surface-solid);
+}
+
+:global(html.dark) .categoryCard:hover {
+  border-color: #526168;
+
+  background: #192126;
 }
 
 .cardTop {
@@ -476,10 +540,18 @@
     color 0.3s ease;
 }
 
+:global(html.dark) .cardSymbol {
+  color: #3d484d;
+}
+
 .categoryCard:hover .cardSymbol {
   color: #999;
 
   transform: translate(-50%, -50%) rotate(5deg) scale(1.12);
+}
+
+:global(html.dark) .categoryCard:hover .cardSymbol {
+  color: #657278;
 }
 
 .cardBottom {
@@ -530,6 +602,8 @@
 .repositoryHeading h2 {
   margin: 0;
 
+  color: var(--ink);
+
   font-size: 48px;
 
   line-height: 0.9;
@@ -547,20 +621,26 @@
 
   border-radius: 9px;
 
-  background: #111;
+  background: var(--ink);
 
-  color: white;
+  color: var(--bg);
 
   text-decoration: none;
 
   font-size: 11px;
 
-  transition: transform 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.3s ease;
 }
 
 .githubLink:hover {
   transform: translateY(-2px);
 }
+
+/* =================================
+   FILTERS
+================================= */
 
 .filters {
   display: flex;
@@ -589,7 +669,7 @@
 
   background: transparent;
 
-  color: #777;
+  color: var(--muted);
 
   cursor: pointer;
 
@@ -599,12 +679,16 @@
 }
 
 .filterActive {
-  border-color: #111;
+  border-color: var(--ink);
 
-  background: #111;
+  background: var(--ink);
 
-  color: #fff;
+  color: var(--bg);
 }
+
+/* =================================
+   RESULTS
+================================= */
 
 .resultInfo {
   display: flex;
@@ -619,7 +703,7 @@
 }
 
 .resultInfo strong {
-  color: #111;
+  color: var(--ink);
 }
 
 .results {
@@ -654,7 +738,7 @@
   padding-right: 17px;
   padding-left: 17px;
 
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--surface-soft);
 }
 
 .resultIcon {
@@ -670,7 +754,7 @@
 
   border-radius: 9px;
 
-  background: #ecece7;
+  background: var(--surface);
 
   color: #666;
 
@@ -679,6 +763,10 @@
   font-size: 8px;
 
   font-weight: 700;
+}
+
+:global(html.dark) .resultIcon {
+  color: #9aa4a8;
 }
 
 .resultText {
@@ -692,9 +780,12 @@
 
   overflow: hidden;
 
+  color: var(--ink);
+
   font-size: 14px;
 
   text-overflow: ellipsis;
+
   white-space: nowrap;
 }
 
@@ -710,6 +801,7 @@
   font-size: 9px;
 
   text-overflow: ellipsis;
+
   white-space: nowrap;
 }
 
@@ -736,6 +828,10 @@
   font-size: 17px;
 }
 
+:global(html.dark) .resultMeta strong {
+  color: #a5afb3;
+}
+
 /* =================================
    LOADING / ERROR / EMPTY
 ================================= */
@@ -749,7 +845,7 @@
 
   border-radius: 15px;
 
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--surface-soft);
 
   text-align: center;
 }
@@ -762,11 +858,17 @@
 
   border: 2px solid #ddd;
 
-  border-top-color: #111;
+  border-top-color: var(--ink);
 
   border-radius: 50%;
 
   animation: spin 0.8s linear infinite;
+}
+
+:global(html.dark) .loadingCircle {
+  border-color: #39444a;
+
+  border-top-color: #00b4d8;
 }
 
 @keyframes spin {
@@ -784,7 +886,7 @@
 }
 
 .error a {
-  color: #111;
+  color: var(--ink);
 
   font-size: 12px;
 
@@ -807,6 +909,8 @@
 
 .empty h3 {
   margin: 0;
+
+  color: var(--ink);
 }
 
 .empty button {
@@ -816,9 +920,9 @@
 
   border-radius: 8px;
 
-  background: #111;
+  background: var(--ink);
 
-  color: #fff;
+  color: var(--bg);
 
   cursor: pointer;
 }
@@ -932,99 +1036,6 @@
   inset: 170px;
 }
 
-/* =================================
-   MOBILE
-================================= */
-
-@media (max-width: 850px) {
-  .hero {
-    padding-top: 110px;
-  }
-
-  .categoryGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .repositoryHeading {
-    align-items: flex-start;
-
-    flex-direction: column;
-
-    gap: 20px;
-  }
-
-  .githubLink {
-    width: 100%;
-
-    justify-content: center;
-  }
-}
-
-@media (max-width: 550px) {
-  .hero {
-    padding: 90px 18px 75px;
-  }
-
-  .hero h1 {
-    font-size: 65px;
-  }
-
-  .heroDescription {
-    font-size: 14px;
-  }
-
-  .searchBox {
-    height: 62px;
-
-    border-radius: 14px;
-  }
-
-  .searchSymbol {
-    margin-left: 17px;
-  }
-
-  .searchHint {
-    display: none;
-  }
-
-  .stats {
-    gap: 17px;
-  }
-
-  .categoriesSection,
-  .repository {
-    padding-right: 18px;
-    padding-left: 18px;
-  }
-
-  .categoryGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .categoryCard {
-    height: 190px;
-  }
-
-  .repositoryHeading h2 {
-    font-size: 39px;
-  }
-
-  .resultMeta span {
-    display: none;
-  }
-
-  .bottom {
-    margin: 0 18px 40px;
-
-    padding: 40px 25px;
-
-    min-height: 390px;
-  }
-
-  .bottomShape {
-    right: -250px;
-  }
-}
 /* =========================================
    NESTED REPOSITORY TREE
 ========================================= */
@@ -1047,11 +1058,12 @@
 }
 
 .treeToolbar strong {
-  color: #111;
+  color: var(--ink);
 }
 
 .treeActions {
   display: flex;
+
   gap: 7px;
 }
 
@@ -1062,21 +1074,26 @@
 
   border-radius: 6px;
 
-  background: white;
+  background: var(--surface-solid);
 
-  color: #777;
+  color: var(--muted);
 
   cursor: pointer;
 
   font-family: inherit;
 
   font-size: 9px;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }
 
 .treeActions button:hover {
   border-color: #999;
 
-  color: #111;
+  color: var(--ink);
 }
 
 /* TREE */
@@ -1090,7 +1107,7 @@
 
   border-radius: 14px;
 
-  background: rgba(255, 255, 255, 0.65);
+  background: var(--surface-soft);
 }
 
 .treeNode {
@@ -1115,7 +1132,7 @@
 
   width: 1px;
 
-  background: #deded8;
+  background: var(--line);
 }
 
 /* row */
@@ -1130,13 +1147,17 @@
 
   padding-right: 13px;
 
-  border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+  border-bottom: 1px solid var(--soft-line);
 
   transition: background 0.18s ease;
 }
 
 .treeRow:hover {
   background: rgba(0, 0, 0, 0.035);
+}
+
+:global(html.dark) .treeRow:hover {
+  background: rgba(255, 255, 255, 0.035);
 }
 
 /* arrow */
@@ -1217,6 +1238,18 @@
   color: #888;
 }
 
+:global(html.dark) .folderIcon {
+  background: #293238;
+
+  color: #b2bdc1;
+}
+
+:global(html.dark) .fileIcon {
+  background: #20282d;
+
+  color: #9da8ad;
+}
+
 /* names */
 
 .treeName {
@@ -1226,7 +1259,7 @@
 
   overflow: hidden;
 
-  color: #222;
+  color: var(--ink);
 
   text-decoration: none;
 
@@ -1286,9 +1319,9 @@
 }
 
 .treeExternal:hover {
-  background: #111;
+  background: var(--ink);
 
-  color: white;
+  color: var(--bg);
 }
 
 /* =========================================
@@ -1324,5 +1357,100 @@
 
   .treeRow {
     min-height: 50px;
+  }
+}
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 850px) {
+  .hero {
+    padding-top: 110px;
+  }
+
+  .categoryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .repositoryHeading {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 20px;
+  }
+
+  .githubLink {
+    width: 100%;
+
+    justify-content: center;
+  }
+}
+
+@media (max-width: 550px) {
+  .hero {
+    padding: 90px 18px 75px;
+  }
+
+  .hero h1 {
+    font-size: 65px;
+  }
+
+  .heroDescription {
+    font-size: 14px;
+  }
+
+  .searchBox {
+    height: 62px;
+
+    border-radius: 14px;
+  }
+
+  .searchSymbol {
+    margin-left: 17px;
+  }
+
+  .searchHint {
+    display: none;
+  }
+
+  .stats {
+    gap: 17px;
+  }
+
+  .categoriesSection,
+  .repository {
+    padding-right: 18px;
+
+    padding-left: 18px;
+  }
+
+  .categoryGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .categoryCard {
+    height: 190px;
+  }
+
+  .repositoryHeading h2 {
+    font-size: 39px;
+  }
+
+  .resultMeta span {
+    display: none;
+  }
+
+  .bottom {
+    margin: 0 18px 40px;
+
+    padding: 40px 25px;
+
+    min-height: 390px;
+  }
+
+  .bottomShape {
+    right: -250px;
   }
 }

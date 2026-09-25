@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { useRouter } from "next/navigation";
+import ScrollBoatProgress from "./ScrollBoatProgress";
 
 const navItems = [
   { name: "Home", href: "/" },
@@ -12,48 +12,57 @@ const navItems = [
   { name: "The Challenge", href: "/challenge" },
   { name: "Our Team", href: "/team" },
   { name: "Contact", href: "/contact" },
+  { name: "Intro Video", href: "/introvideo" },
 ];
 
 export default function NavbarClient({ isSuperAdmin }) {
   const pathname = usePathname();
-  const router = useRouter();
 
   const [menuOpen, setMenuOpen] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [show, setShow] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
-  /*
-   * =========================================================
-   *                  NAVIGATION ITEMS
-   * =========================================================
-   *
-   * Admin is added directly from the server-provided
-   * isSuperAdmin value.
-   *
-   * No useState or useEffect is required here.
-   */
-
-  // useEffect(() => {
-  //   console.log("from navbar client", isSuperAdmin);
-  //   setNavigaionItems(
-  //     isSuperAdmin
-  //       ? [...navItems, { name: "Admin", href: "/admin" }]
-  //       : navItems,
-  //   );
-  // }, [pathname]);
-
-  const isAdmin = pathname.startsWith("/admin");
-
-  /*
-   * =========================================================
-   *                     AUTH CHECK
-   * =========================================================
-   */
+  /* =========================================================
+     THEME
+  ========================================================= */
 
   useEffect(() => {
     setMounted(true);
 
+    const savedTheme = localStorage.getItem("theme");
+
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      setDarkMode(true);
+    } else {
+      document.documentElement.classList.remove("dark");
+      setDarkMode(false);
+    }
+  }, []);
+
+  function toggleTheme() {
+    setDarkMode((current) => {
+      const next = !current;
+
+      if (next) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+
+      return next;
+    });
+  }
+
+  /* =========================================================
+     AUTH
+  ========================================================= */
+
+  useEffect(() => {
     async function checkAuth() {
       try {
         const response = await fetch("/api/users/me", {
@@ -67,39 +76,35 @@ export default function NavbarClient({ isSuperAdmin }) {
         }
 
         const data = await response.json();
-        setShow(data.userType === "superadmin");
+
+        const userType = data.userType;
+
         setLoggedIn(
-          data.userType === "member" ||
-            data.userType === "sponsor" ||
-            data.userType === "superadmin",
+          userType === "member" ||
+            userType === "sponsor" ||
+            userType === "superadmin",
         );
-        console.log("show", show);
+
+        setShow(userType === "superadmin");
       } catch (error) {
         console.error("Navbar auth check failed:", error);
         setLoggedIn(false);
+        setShow(false);
       }
     }
 
     checkAuth();
   }, [pathname]);
 
-  /*
-   * =========================================================
-   *                 CLOSE MENU ON ROUTE CHANGE
-   * =========================================================
-   */
-
   useEffect(() => {
     setMenuOpen(false);
   }, [pathname]);
 
-  /*
-   * =========================================================
-   *                       ADMIN PAGES
-   * =========================================================
-   */
+  /* =========================================================
+     ADMIN PAGE
+  ========================================================= */
 
-  if (isAdmin) {
+  if (pathname.startsWith("/admin")) {
     return null;
   }
 
@@ -109,49 +114,49 @@ export default function NavbarClient({ isSuperAdmin }) {
 
   return (
     <>
-      {/* ========================================================= */}
-      {/*                         NAVBAR                            */}
-      {/* ========================================================= */}
+      {/* =====================================================
+          NAVBAR
+      ===================================================== */}
 
-      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+      <header className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8 dark:bg-grey">
+        <ScrollBoatProgress />
+
         <nav
           className="
             relative mx-auto max-w-7xl
             rounded-2xl
-            border border-white/15
+            border border-white/10
             bg-[#242421]/95
-            shadow-[0_8px_30px_rgba(0,0,0,0.18)]
+            shadow-[0_8px_30px_rgba(0,0,0,0.12)]
             backdrop-blur-xl
           "
         >
-          {/* ===================================================== */}
-          {/*                         DESKTOP                       */}
-          {/* ===================================================== */}
+          {/* =================================================
+              DESKTOP
+          ================================================= */}
 
           <div className="hidden h-[76px] items-center md:flex">
-            {/* ================= LEFT ================= */}
+            {/* LEFT */}
 
             <div className="flex items-center px-5">
               <Link
                 href="/updates"
                 className="
                   rounded-full
-                  border border-white/20
+                  border border-white/10
                   bg-white/5
                   px-5 py-2.5
                   text-sm font-medium
                   text-white
                   transition-all duration-300
-                  hover:border-white
-                  hover:bg-white
-                  hover:text-[#242421]
+                  hover:bg-white/10
                 "
               >
                 Volare Hub
               </Link>
             </div>
 
-            {/* ================= CENTER LOGO ================= */}
+            {/* CENTER LOGO */}
 
             <Link
               href="/"
@@ -178,9 +183,33 @@ export default function NavbarClient({ isSuperAdmin }) {
               />
             </Link>
 
-            {/* ================= RIGHT ================= */}
+            {/* RIGHT */}
 
-            <div className="ml-auto flex items-center px-5">
+            <div className="ml-auto flex items-center gap-3 px-5">
+              {/* THEME TOGGLE */}
+
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label="Toggle theme"
+                className="
+                  flex h-11 w-11
+                  items-center justify-center
+                  rounded-full
+                  border border-white/10
+                  bg-white/5
+                  text-lg
+                  text-white
+                  transition-all duration-300
+                  hover:bg-white/10
+                  active:scale-95
+                "
+              >
+                {darkMode ? "☀" : "☾"}
+              </button>
+
+              {/* HAMBURGER */}
+
               <button
                 type="button"
                 aria-label="Open navigation"
@@ -190,11 +219,9 @@ export default function NavbarClient({ isSuperAdmin }) {
                   flex h-11 w-11
                   items-center justify-center
                   rounded-full
-                  border border-white/15
+                  border border-white/10
                   bg-white/5
-                  text-white
                   transition-all duration-300
-                  hover:border-white/25
                   hover:bg-white/10
                   active:scale-95
                 "
@@ -207,32 +234,30 @@ export default function NavbarClient({ isSuperAdmin }) {
             </div>
           </div>
 
-          {/* ===================================================== */}
-          {/*                         MOBILE                        */}
-          {/* ===================================================== */}
+          {/* =================================================
+              MOBILE
+          ================================================= */}
 
           <div className="flex h-[68px] items-center px-4 md:hidden">
-            {/* ================= LEFT - HUB ================= */}
+            {/* LEFT */}
 
             <Link
               href="/updates"
               className="
                 rounded-full
-                border border-white/20
+                border border-white/10
                 bg-white/5
                 px-3.5 py-2
                 text-xs font-medium
                 text-white
                 transition
-                hover:border-white
-                hover:bg-white
-                hover:text-[#242421]
+                hover:bg-white/10
               "
             >
               Volare Hub
             </Link>
 
-            {/* ================= CENTER LOGO ================= */}
+            {/* CENTER LOGO */}
 
             <Link
               href="/"
@@ -249,48 +274,68 @@ export default function NavbarClient({ isSuperAdmin }) {
                 width={140}
                 height={50}
                 priority
-                className="
-                  h-auto
-                  w-[105px]
-                  object-contain
-                "
+                className="h-auto w-[105px] object-contain"
               />
             </Link>
 
-            {/* ================= RIGHT - HAMBURGER ================= */}
+            {/* RIGHT */}
 
-            <button
-              type="button"
-              aria-label="Open navigation"
-              aria-expanded={menuOpen}
-              onClick={() => setMenuOpen(true)}
-              className="
-                ml-auto
-                flex h-10 w-10
-                items-center justify-center
-                rounded-full
-                border border-white/15
-                bg-white/5
-                text-white
-                transition
-                hover:bg-white/10
-                active:scale-95
-              "
-            >
-              <div className="flex flex-col gap-1.5">
-                <span className="h-[1.5px] w-5 bg-white" />
-                <span className="h-[1.5px] w-5 bg-white" />
-              </div>
-            </button>
+            <div className="ml-auto flex items-center gap-2">
+              {/* THEME */}
+
+              <button
+                type="button"
+                onClick={toggleTheme}
+                aria-label="Toggle theme"
+                className="
+                  flex h-10 w-10
+                  items-center justify-center
+                  rounded-full
+                  border border-white/10
+                  bg-white/5
+                  text-base
+                  text-white
+                  transition
+                  hover:bg-white/10
+                  active:scale-95
+                "
+              >
+                {darkMode ? "☀" : "☾"}
+              </button>
+
+              {/* HAMBURGER */}
+
+              <button
+                type="button"
+                aria-label="Open navigation"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(true)}
+                className="
+                  flex h-10 w-10
+                  items-center justify-center
+                  rounded-full
+                  border border-white/10
+                  bg-white/5
+                  transition
+                  hover:bg-white/10
+                  active:scale-95
+                "
+              >
+                <div className="flex flex-col gap-1.5">
+                  <span className="h-[1.5px] w-5 bg-white" />
+                  <span className="h-[1.5px] w-5 bg-white" />
+                </div>
+              </button>
+            </div>
           </div>
         </nav>
       </header>
-
-      {/* ========================================================= */}
-      {/*                         OVERLAY                           */}
-      {/* ========================================================= */}
+      {/* =====================================================
+          OVERLAY
+      ===================================================== */}
 
       <div
+        onClick={() => setMenuOpen(false)}
         className={`
           fixed inset-0 z-[60]
           bg-black/30
@@ -302,38 +347,68 @@ export default function NavbarClient({ isSuperAdmin }) {
               : "pointer-events-none opacity-0"
           }
         `}
-        onClick={() => setMenuOpen(false)}
       />
 
-      {/* ========================================================= */}
-      {/*                    RIGHT SIDE MENU                        */}
-      {/* ========================================================= */}
+      {/* =====================================================
+          SIDE MENU
+      ===================================================== */}
 
       <aside
         className={`
           fixed right-0 top-0 z-[70]
           h-full w-[340px]
           max-w-[88vw]
-          border-l border-gray-200
+
+          border-l
+          border-gray-200
           bg-white
+
           shadow-[-20px_0_60px_rgba(0,0,0,0.12)]
-          transition-transform duration-500
+
+          transition-all duration-500
           ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          dark:border-gray-800
+          dark:bg-[#111719]
+          dark:shadow-[-20px_0_60px_rgba(0,0,0,0.4)]
+
           ${menuOpen ? "translate-x-0" : "translate-x-full"}
         `}
       >
         <div className="flex h-full flex-col">
-          {/* ===================================================== */}
-          {/*                         MENU HEADER                    */}
-          {/* ===================================================== */}
+          {/* MENU HEADER */}
 
-          <div className="flex items-center justify-between border-b border-gray-100 px-6 py-6">
+          <div
+            className="
+              flex items-center justify-between
+              border-b border-gray-100
+              px-6 py-6
+              dark:border-gray-800
+            "
+          >
             <div>
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+              <p
+                className="
+                  text-[10px]
+                  font-bold
+                  uppercase
+                  tracking-[0.2em]
+                  text-gray-400
+                "
+              >
                 Team Volare
               </p>
 
-              <h2 className="mt-1 text-xl font-black tracking-tight text-gray-950">
+              <h2
+                className="
+                  mt-1
+                  text-xl
+                  font-black
+                  tracking-tight
+                  text-gray-950
+                  dark:text-white
+                "
+              >
                 Navigation
               </h2>
             </div>
@@ -351,6 +426,11 @@ export default function NavbarClient({ isSuperAdmin }) {
                 text-gray-700
                 transition
                 hover:bg-gray-200
+
+                dark:bg-gray-800
+                dark:text-gray-200
+                dark:hover:bg-gray-700
+
                 active:scale-95
               "
             >
@@ -358,9 +438,7 @@ export default function NavbarClient({ isSuperAdmin }) {
             </button>
           </div>
 
-          {/* ===================================================== */}
-          {/*                      NAVIGATION LINKS                  */}
-          {/* ===================================================== */}
+          {/* NAVIGATION */}
 
           <div className="flex-1 overflow-y-auto px-5 py-6">
             <div className="flex flex-col gap-2">
@@ -373,14 +451,16 @@ export default function NavbarClient({ isSuperAdmin }) {
                     href={item.href}
                     onClick={() => setMenuOpen(false)}
                     className={`
-                      group flex items-center justify-between
+                      group
+                      flex items-center justify-between
                       rounded-2xl
                       px-4 py-4
                       transition-all duration-300
+
                       ${
                         active
-                          ? "bg-gray-950 text-white"
-                          : "text-gray-700 hover:bg-gray-100"
+                          ? "bg-gray-950 text-white dark:bg-white dark:text-gray-950"
+                          : "text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                       }
                     `}
                   >
@@ -389,7 +469,11 @@ export default function NavbarClient({ isSuperAdmin }) {
                         className={`
                           text-[10px]
                           font-bold
-                          ${active ? "text-white/40" : "text-gray-300"}
+                          ${
+                            active
+                              ? "text-white/40 dark:text-gray-500"
+                              : "text-gray-300 dark:text-gray-600"
+                          }
                         `}
                       >
                         {String(index + 1).padStart(2, "0")}
@@ -398,13 +482,7 @@ export default function NavbarClient({ isSuperAdmin }) {
                       <span className="text-sm font-semibold">{item.name}</span>
                     </div>
 
-                    <span
-                      className="
-                        text-lg
-                        transition-transform duration-300
-                        group-hover:translate-x-1
-                      "
-                    >
+                    <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
                       →
                     </span>
                   </Link>
@@ -412,12 +490,27 @@ export default function NavbarClient({ isSuperAdmin }) {
               })}
             </div>
 
-            {/* =================================================== */}
-            {/*                         HUB                         */}
-            {/* =================================================== */}
+            {/* HUB */}
 
-            <div className="mt-6 border-t border-gray-100 pt-6">
-              <p className="mb-3 px-2 text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400">
+            <div
+              className="
+                mt-6
+                border-t
+                border-gray-100
+                pt-6
+                dark:border-gray-800
+              "
+            >
+              <p
+                className="
+                  mb-3 px-2
+                  text-[10px]
+                  font-bold
+                  uppercase
+                  tracking-[0.2em]
+                  text-gray-400
+                "
+              >
                 Volare Space
               </p>
 
@@ -425,14 +518,21 @@ export default function NavbarClient({ isSuperAdmin }) {
                 href="/updates"
                 onClick={() => setMenuOpen(false)}
                 className="
-                  group flex items-center justify-between
+                  group
+                  flex items-center justify-between
                   rounded-2xl
                   bg-gray-100
                   px-4 py-4
                   text-gray-900
                   transition-all duration-300
+
                   hover:bg-gray-950
                   hover:text-white
+
+                  dark:bg-gray-800
+                  dark:text-white
+                  dark:hover:bg-white
+                  dark:hover:text-gray-950
                 "
               >
                 <div>
@@ -443,13 +543,7 @@ export default function NavbarClient({ isSuperAdmin }) {
                   </p>
                 </div>
 
-                <span
-                  className="
-                    text-lg
-                    transition-transform duration-300
-                    group-hover:translate-x-1
-                  "
-                >
+                <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
               </Link>
@@ -458,15 +552,22 @@ export default function NavbarClient({ isSuperAdmin }) {
                 href="/technical-hub"
                 onClick={() => setMenuOpen(false)}
                 className="
-                  mt-[10px]
-                  group flex items-center justify-between
+                  mt-2
+                  group
+                  flex items-center justify-between
                   rounded-2xl
                   bg-gray-100
                   px-4 py-4
                   text-gray-900
                   transition-all duration-300
+
                   hover:bg-gray-950
                   hover:text-white
+
+                  dark:bg-gray-800
+                  dark:text-white
+                  dark:hover:bg-white
+                  dark:hover:text-gray-950
                 "
               >
                 <div>
@@ -477,24 +578,86 @@ export default function NavbarClient({ isSuperAdmin }) {
                   </p>
                 </div>
 
-                <span
-                  className="
-                    text-lg
-                    transition-transform duration-300
-                    group-hover:translate-x-1
-                  "
-                >
+                <span className="text-lg transition-transform duration-300 group-hover:translate-x-1">
                   →
                 </span>
               </Link>
             </div>
           </div>
 
-          {/* ===================================================== */}
-          {/*                         MENU FOOTER                    */}
-          {/* ===================================================== */}
+          {/* FOOTER */}
 
-          <div className="border-t border-gray-100 px-6 py-5">
+          <div
+            className="
+              border-t
+              border-gray-100
+              px-6 py-5
+              dark:border-gray-800
+            "
+          >
+            {/* THEME SWITCH */}
+
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="
+                mb-3
+                flex w-full
+                items-center justify-between
+                rounded-2xl
+                border
+                border-gray-200
+                bg-gray-50
+                px-4 py-4
+                text-gray-900
+                transition-all duration-300
+                hover:bg-gray-100
+
+                dark:border-gray-700
+                dark:bg-gray-800
+                dark:text-white
+                dark:hover:bg-gray-700
+              "
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-lg">{darkMode ? "☀" : "☾"}</span>
+
+                <div className="text-left">
+                  <p className="text-sm font-bold">
+                    {darkMode ? "Light Mode" : "Dark Mode"}
+                  </p>
+
+                  <p className="mt-0.5 text-xs text-gray-400">
+                    Switch appearance
+                  </p>
+                </div>
+              </div>
+
+              <div
+                className={`
+                  relative
+                  h-6 w-11
+                  rounded-full
+                  transition-colors duration-300
+                  ${darkMode ? "bg-[#00A896]" : "bg-gray-300"}
+                `}
+              >
+                <div
+                  className={`
+                    absolute top-1
+                    h-4 w-4
+                    rounded-full
+                    bg-white
+                    shadow-sm
+                    transition-transform duration-300
+                    ${darkMode ? "translate-x-6" : "translate-x-1"}
+                  `}
+                />
+              </div>
+            </button>
+
+            {/* LOGIN */}
+
             {mounted && !loggedIn && (
               <Link
                 href="/login"
@@ -509,6 +672,11 @@ export default function NavbarClient({ isSuperAdmin }) {
                   text-white
                   transition
                   hover:bg-gray-800
+
+                  dark:bg-white
+                  dark:text-gray-950
+                  dark:hover:bg-gray-200
+
                   active:scale-[0.98]
                 "
               >

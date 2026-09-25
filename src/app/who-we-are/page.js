@@ -5,24 +5,28 @@ import Link from "next/link";
 export default function WhoWeAre() {
   return (
     <PageShell>
-      <main className="bg-[#f5f5f3] text-[#163F46]">
+      <main className="bg-[#f5f5f3] text-[#163F46] transition-colors duration-300 dark:bg-[#0d1719] dark:text-gray-100">
         {/* HERO */}
         <section className="relative overflow-hidden">
           {/* Decorative circles */}
-          <div className="absolute -right-40 top-20 h-[500px] w-[500px] rounded-full border border-[#00B4D8]/10" />
-          <div className="absolute -right-10 top-40 h-[350px] w-[350px] rounded-full border border-[#00A896]/10" />
+          <div className="absolute -right-40 top-20 h-[500px] w-[500px] rounded-full border border-[#00B4D8]/10 dark:border-[#00B4D8]/20" />
+          <div className="absolute -right-10 top-40 h-[350px] w-[350px] rounded-full border border-[#00A896]/10 dark:border-[#00A896]/20" />
 
           <div className="mx-auto max-w-7xl px-6 pb-20 pt-24 lg:px-10 lg:pb-28 lg:pt-32">
             <div className="grid items-end gap-12 lg:grid-cols-[1.1fr_0.9fr]">
               <div>
-                <p className="mb-6 text-xs font-bold uppercase tracking-[0.35em] text-[#0077B6]">
+                <p className="mb-6 text-xs font-bold uppercase tracking-[0.35em] text-[#0077B6] dark:text-[#00B4D8]">
                   WHO WE ARE
                 </p>
 
                 <h1 className="max-w-4xl text-6xl font-black leading-[0.9] tracking-[-0.06em] sm:text-7xl lg:text-[7.5rem]">
-                  <span className="text-[#0077B6]">More</span>
+                  <span className="text-[#0077B6] dark:text-[#00B4D8]">
+                    More
+                  </span>
                   <br />
-                  <span className="text-[#00B4D8]">Than</span>
+                  <span className="text-[#00B4D8] dark:text-[#00A896]">
+                    Than
+                  </span>
                   <br />
                   <span className="bg-gradient-to-r from-[#00A896] via-[#0077B6] to-[#6C63FF] bg-clip-text text-transparent">
                     A Boat.
@@ -31,15 +35,17 @@ export default function WhoWeAre() {
               </div>
 
               <div className="max-w-md lg:pb-3">
-                <p className="text-xl font-medium leading-relaxed text-[#315A63]">
+                <p className="text-xl font-medium leading-relaxed text-[#315A63] dark:text-gray-300">
                   We are a multidisciplinary student team turning{" "}
-                  <span className="font-bold text-[#0077B6]">engineering</span>,
-                  technology and creativity into something that moves.
+                  <span className="font-bold text-[#0077B6] dark:text-[#00B4D8]">
+                    engineering
+                  </span>
+                  , technology and creativity into something that moves.
                 </p>
 
                 <div className="mt-8 h-px w-full bg-gradient-to-r from-[#0077B6]/30 via-[#00B4D8]/20 to-transparent" />
 
-                <p className="mt-5 text-sm leading-7 text-[#527078]">
+                <p className="mt-5 text-sm leading-7 text-[#527078] dark:text-gray-400">
                   From propulsion and electronics to software, materials and
                   control systems — every component has a purpose.
                 </p>
@@ -73,10 +79,14 @@ export default function WhoWeAre() {
         </section>
 
         {/* INTRO */}
-        <section className="mx-auto max-w-7xl px-6 py-28 lg:px-10 lg:py-36">
+        <section className="mx-auto max-w-7xl px-6 py-28 lg:px-10 lg:py-36 ">
           <div className="grid gap-16 lg:grid-cols-12">
             <div className="lg:col-span-4">
-              <SectionTitle eyebrow="OUR MINDSET" title="Built by curiosity." />
+              <SectionTitle
+                eyebrow="OUR MINDSET"
+                className="dark:text-white"
+                title="Built by curiosity."
+              />
             </div>
 
             <div className="lg:col-span-7 lg:col-start-6">
@@ -85,14 +95,14 @@ export default function WhoWeAre() {
                 to solve one ambitious problem.
               </p>
 
-              <p className="mt-8 max-w-2xl text-base leading-8 text-[#527078]">
+              <p className="mt-8 max-w-2xl text-base leading-8 text-[#527078] dark:text-gray-400">
                 A boat is only the final result. Behind it is a chain of
                 decisions — how efficiently it moves, how its energy is managed,
                 how its electronics communicate, how its structure handles the
                 forces and how software brings everything together.
               </p>
 
-              <p className="mt-6 max-w-2xl text-base leading-8 text-[#527078]">
+              <p className="mt-6 max-w-2xl text-base leading-8 text-[#527078] dark:text-gray-400">
                 We learn by building, testing, breaking and building again.
                 Every iteration takes us closer to creating a faster, smarter
                 and more sustainable marine system.
@@ -102,7 +112,7 @@ export default function WhoWeAre() {
         </section>
 
         {/* DISCIPLINES */}
-        <section className="border-y border-[#0077B6]/10 bg-white">
+        <section className="border-y border-[#0077B6]/10 bg-white dark:border-white/10 dark:bg-[#121e21]">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
             <div className="mb-16 flex flex-col justify-between gap-6 md:flex-row md:items-end">
               <div>
@@ -111,7 +121,9 @@ export default function WhoWeAre() {
                 </p>
 
                 <h2 className="mt-4 text-5xl font-black tracking-[-0.05em] sm:text-6xl">
-                  <span className="text-[#0077B6]">Many disciplines.</span>
+                  <span className="text-[#0077B6] dark:text-[#00B4D8]">
+                    Many disciplines.
+                  </span>
                   <br />
                   <span className="bg-gradient-to-r from-[#00B4D8] to-[#00A896] bg-clip-text text-transparent">
                     One machine.
@@ -119,7 +131,7 @@ export default function WhoWeAre() {
                 </h2>
               </div>
 
-              <p className="max-w-sm text-sm leading-7 text-[#527078]">
+              <p className="max-w-sm text-sm leading-7 text-[#527078] dark:text-gray-400">
                 Every subsystem contributes to the performance of the final
                 vessel.
               </p>
@@ -178,15 +190,17 @@ export default function WhoWeAre() {
         </section>
 
         {/* NUMBERS */}
-        <section className="bg-[#eef8f7]">
+        <section className="bg-[#eef8f7] transition-colors duration-300 dark:bg-[#0f2022]">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
             <div className="mb-16">
-              <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#0077B6]">
+              <p className="text-xs font-bold uppercase tracking-[0.3em] text-[#0077B6] dark:text-[#00B4D8]">
                 THE JOURNEY
               </p>
 
               <h2 className="mt-4 text-5xl font-black tracking-[-0.05em] sm:text-6xl">
-                <span className="text-[#0077B6]">Small team.</span>
+                <span className="text-[#0077B6] dark:text-[#00B4D8]">
+                  Small team.
+                </span>
                 <br />
                 <span className="bg-gradient-to-r from-[#00B4D8] to-[#00A896] bg-clip-text text-transparent">
                   Big ambition.
@@ -222,7 +236,7 @@ export default function WhoWeAre() {
         {/* TEAM IMAGE / CLOSING */}
         <section className="mx-auto max-w-7xl px-6 py-28 lg:px-10 lg:py-36">
           <div className="grid items-center gap-14 lg:grid-cols-2">
-            <div className="overflow-hidden rounded-[2rem] border border-[#0077B6]/10">
+            <div className="overflow-hidden rounded-[2rem] border border-[#0077B6]/10 dark:border-white/10">
               <img
                 src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=85"
                 alt="Engineering team collaborating"
@@ -236,16 +250,20 @@ export default function WhoWeAre() {
               </p>
 
               <h2 className="mt-5 text-5xl font-black tracking-[-0.05em] sm:text-6xl">
-                <span className="text-[#0077B6]">Different</span>
+                <span className="text-[#0077B6] dark:text-[#00B4D8]">
+                  Different
+                </span>
                 <br />
-                <span className="text-[#00B4D8]">people.</span>
+                <span className="text-[#00B4D8] dark:text-[#00A896]">
+                  people.
+                </span>
                 <br />
                 <span className="bg-gradient-to-r from-[#00A896] to-[#6C63FF] bg-clip-text text-transparent">
                   Same direction.
                 </span>
               </h2>
 
-              <p className="mt-8 max-w-lg leading-8 text-[#527078]">
+              <p className="mt-8 max-w-lg leading-8 text-[#527078] dark:text-gray-400">
                 What makes Volare special isn't just the technology. It is the
                 people behind it — students who bring different skills,
                 perspectives and ideas to the same table.
@@ -254,10 +272,10 @@ export default function WhoWeAre() {
               <div className="mt-10">
                 <Link
                   href="/team"
-                  className="group inline-flex items-center gap-4 text-sm font-bold text-[#0077B6]"
+                  className="group inline-flex items-center gap-4 text-sm font-bold text-[#0077B6] dark:text-[#00B4D8]"
                 >
                   Meet the team
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0077B6]/25 text-[#0077B6] transition-all duration-300 group-hover:border-[#00A896] group-hover:bg-[#00A896] group-hover:text-white">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#0077B6]/25 text-[#0077B6] transition-all duration-300 group-hover:border-[#00A896] group-hover:bg-[#00A896] group-hover:text-white dark:border-[#00B4D8]/30 dark:text-[#00B4D8]">
                     →
                   </span>
                 </Link>
@@ -267,10 +285,10 @@ export default function WhoWeAre() {
         </section>
 
         {/* FINAL STATEMENT */}
-        <section className="border-t border-[#0077B6]/10">
+        <section className="border-t border-[#0077B6]/10 dark:border-white/10">
           <div className="mx-auto max-w-7xl px-6 py-24 lg:px-10 lg:py-32">
             <p className="max-w-5xl text-4xl font-black leading-tight tracking-[-0.04em] sm:text-6xl lg:text-7xl">
-              <span className="text-[#0077B6]">
+              <span className="text-[#0077B6] dark:text-[#00B4D8]">
                 We don't just want to participate.
               </span>
               <br />
@@ -291,15 +309,25 @@ export default function WhoWeAre() {
 
 function DisciplineCard({ number, title, description, image, accent }) {
   const accents = {
-    blue: "text-[#0077B6] border-[#0077B6]/20",
-    cyan: "text-[#00B4D8] border-[#00B4D8]/20",
-    teal: "text-[#00A896] border-[#00A896]/20",
-    violet: "text-[#6C63FF] border-[#6C63FF]/20",
+    blue: "text-[#0077B6] border-[#0077B6]/20 dark:text-[#00B4D8] dark:border-[#00B4D8]/20",
+    cyan: "text-[#00B4D8] border-[#00B4D8]/20 dark:text-[#00B4D8] dark:border-[#00B4D8]/20",
+    teal: "text-[#00A896] border-[#00A896]/20 dark:text-[#00A896] dark:border-[#00A896]/20",
+    violet:
+      "text-[#6C63FF] border-[#6C63FF]/20 dark:text-[#8B83FF] dark:border-[#6C63FF]/20",
   };
 
   return (
     <div
-      className={`group overflow-hidden rounded-[1.5rem] border bg-[#f5f5f3] transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${accents[accent]}`}
+      className={`
+        group overflow-hidden rounded-[1.5rem]
+        border
+        bg-[#f5f5f3]
+        transition-all duration-300
+        hover:-translate-y-1
+        hover:shadow-xl
+        dark:bg-[#182528]
+        ${accents[accent]}
+      `}
     >
       <div className="relative h-56 overflow-hidden">
         <img
@@ -310,19 +338,23 @@ function DisciplineCard({ number, title, description, image, accent }) {
 
         <div className="absolute inset-0 bg-black/10 transition duration-500 group-hover:bg-black/0" />
 
-        <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1 text-xs font-black">
+        <span className="absolute left-5 top-5 rounded-full bg-white/95 px-3 py-1 text-xs font-black text-gray-900 dark:bg-[#11191b]/95 dark:text-white">
           {number}
         </span>
       </div>
 
       <div className="p-6">
         <h3
-          className={`text-2xl font-black tracking-tight ${accents[accent].split(" ")[0]}`}
+          className={`text-2xl font-black tracking-tight ${
+            accents[accent].split(" ")[0]
+          }`}
         >
           {title}
         </h3>
 
-        <p className="mt-3 text-sm leading-6 text-[#527078]">{description}</p>
+        <p className="mt-3 text-sm leading-6 text-[#527078] dark:text-gray-400">
+          {description}
+        </p>
       </div>
     </div>
   );
@@ -335,19 +367,21 @@ function DisciplineCard({ number, title, description, image, accent }) {
 function Stat({ number, label, text, accent }) {
   const colors = {
     blue: {
-      number: "text-[#0077B6]",
-      line: "border-[#0077B6]/20",
-      label: "text-[#0077B6]",
+      number: "text-[#0077B6] dark:text-[#00B4D8]",
+      line: "border-[#0077B6]/20 dark:border-[#00B4D8]/20",
+      label: "text-[#0077B6] dark:text-[#00B4D8]",
     },
+
     teal: {
       number: "text-[#00A896]",
-      line: "border-[#00A896]/20",
+      line: "border-[#00A896]/20 dark:border-[#00A896]/20",
       label: "text-[#00A896]",
     },
+
     violet: {
-      number: "text-[#6C63FF]",
-      line: "border-[#6C63FF]/20",
-      label: "text-[#6C63FF]",
+      number: "text-[#6C63FF] dark:text-[#8B83FF]",
+      line: "border-[#6C63FF]/20 dark:border-[#6C63FF]/20",
+      label: "text-[#6C63FF] dark:text-[#8B83FF]",
     },
   };
 
@@ -365,7 +399,9 @@ function Stat({ number, label, text, accent }) {
         {label}
       </div>
 
-      <p className="mt-3 max-w-xs text-sm leading-6 text-[#527078]">{text}</p>
+      <p className="mt-3 max-w-xs text-sm leading-6 text-[#527078] dark:text-gray-400">
+        {text}
+      </p>
     </div>
   );
 }
